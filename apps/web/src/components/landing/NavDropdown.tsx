@@ -1,3 +1,5 @@
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router";
 import type { NavGroup, NavLinkItem } from "./nav-items";
 
@@ -39,14 +41,13 @@ export function NavDropdown({ group }: { group: NavGroup }) {
         aria-haspopup="true"
       >
         {group.label}
-        <svg
-          viewBox="0 0 10 6"
-          className="w-[10px] transition-transform duration-200 ease-[ease] group-focus-within/nav:rotate-180 group-hover/nav:rotate-180"
-          fill="none"
+        <HugeiconsIcon
+          icon={ArrowDown01Icon}
+          size={12}
+          strokeWidth={1.5}
+          className="transition-transform duration-200 ease-[ease] group-focus-within/nav:rotate-180 group-hover/nav:rotate-180"
           aria-hidden="true"
-        >
-          <path d="M1 1L5 5L9 1" stroke="currentColor" strokeLinecap="round" />
-        </svg>
+        />
       </button>
       <div className="invisible absolute top-full left-[-0.75rem] z-10 w-[18rem] translate-y-[3rem] rounded-bar border border-line bg-white p-2 opacity-0 [transition:translate_300ms_ease,opacity_200ms_ease,visibility_200ms] group-focus-within/nav:visible group-focus-within/nav:translate-y-0 group-focus-within/nav:opacity-100 group-hover/nav:visible group-hover/nav:translate-y-0 group-hover/nav:opacity-100">
         {group.items.map((item) => (

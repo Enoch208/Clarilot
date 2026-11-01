@@ -1,3 +1,6 @@
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Diamond01Icon } from "@hugeicons/core-free-icons";
+
 type TagPillProps = {
   label: string;
 };
@@ -5,9 +8,12 @@ type TagPillProps = {
 export function TagPill({ label }: TagPillProps) {
   return (
     <div className="inline-flex items-center gap-1.5 rounded-pill bg-mist px-2.5 py-[5px] type-tag text-ink">
-      <svg viewBox="0 0 11 13" className="h-[0.8em] w-[0.7em] shrink-0" aria-hidden="true">
-        <path d="M5.5 0.5L10.5 6.5L5.5 12.5L0.5 6.5Z" fill="currentColor" />
-      </svg>
+      <HugeiconsIcon
+        icon={Diamond01Icon}
+        fill="currentColor"
+        className="size-[0.9em] shrink-0"
+        aria-hidden="true"
+      />
       <span className="font-medium">{label}</span>
     </div>
   );
