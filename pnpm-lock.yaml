@@ -119,6 +119,25 @@ importers:
         specifier: 4.6.7
         version: 4.6.7
 
+  scripts:
+    dependencies:
+      '@clarilot/api':
+        specifier: workspace:*
+        version: link:../apps/api
+      '@clarilot/core':
+        specifier: workspace:*
+        version: link:../packages/core
+      postgres:
+        specifier: 3.4.9
+        version: 3.4.9
+      zod:
+        specifier: 4.6.7
+        version: 4.6.7
+    devDependencies:
+      tsx:
+        specifier: 4.23.15
+        version: 4.23.15
+
   seed:
     dependencies:
       '@clarilot/core':

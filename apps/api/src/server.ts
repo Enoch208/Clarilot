@@ -8,7 +8,7 @@ import { loadRegistry } from "./sql/registry";
 import { postgresDrafts } from "./stores/drafts";
 import { postgresLedger } from "./stores/ledger";
 import { postgresPharmacy } from "./stores/pharmacy";
-import { httpZetaris, unconfiguredZetaris, type ZetarisClient } from "./zetaris/client";
+import { zetarisFromEnv } from "./zetaris/from-env";
 
 function environment(): ApiEnv {
   try {
@@ -22,32 +22,12 @@ function environment(): ApiEnv {
   }
 }
 
-function zetarisFor(env: ApiEnv): ZetarisClient {
-  if (
-    env.ZETARIS_BASE_URL === undefined ||
-    env.ZETARIS_API_KEY === undefined ||
-    env.ZETARIS_ORG_ID === undefined
-  ) {
-    return unconfiguredZetaris();
-  }
-  return httpZetaris({
-    baseUrl: env.ZETARIS_BASE_URL,
-    apiKey: env.ZETARIS_API_KEY,
-    orgId: env.ZETARIS_ORG_ID,
-    transport: env.ZETARIS_TRANSPORT,
-    principal: env.ZETARIS_PRINCIPAL ?? null,
-    timeoutMs: env.ZETARIS_QUERY_TIMEOUT_MS,
-    rowLimit: 5_000,
-    fetch,
-  });
-}
-
 const env = environment();
 const db = createDb(env.DATABASE_URL);
 const now = () => new Date();
 
 const app = createApp({
-  zetaris: zetarisFor(env),
+  zetaris: zetarisFromEnv(env),
   registry: await loadRegistry(fromRepo(env.SQL_NAMED_DIR)),
   ledger: postgresLedger(db),
   pharmacy: postgresPharmacy(db),

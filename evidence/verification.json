@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-11-01T02:35:00.579Z",
+  "zetarisConfigured": false,
+  "zetarisTransport": null,
+  "namedSqlVerified": false,
+  "passed": 1,
+  "failed": 9,
+  "checks": [
+    {
+      "queryId": null,
+      "evidencePath": null,
+      "id": "V-01",
+      "title": "Zetaris version + SELECT 1",
+      "source": "zetaris",
+      "expected": "SELECT 1 returns 1 and SHOW SERVER VERSION answers",
+      "status": "FAIL",
+      "observed": "Zetaris is not configured, so the Zetaris side was not run",
+      "checkedAt": "2026-11-01T02:34:58.683Z"
+    },
+    {
+      "queryId": null,
+      "evidencePath": null,
+      "id": "V-02",
+      "title": "PostgreSQL source count = direct psql",
+      "source": "pharmacy_pg.dispensing",
+      "expected": "Zetaris count equals the direct Postgres count (1453)",
+      "status": "FAIL",
+      "observed": "direct count 1453; Zetaris is not configured, so the Zetaris side was not run",
+      "checkedAt": "2026-11-01T02:34:58.706Z"
+    },
+    {
+      "queryId": null,
+      "evidencePath": null,
+      "id": "V-03",
+      "title": "FDA recall table shape + count + timestamp",
+      "source": "FDA_RAW.recalls",
+      "expected": "page rows = min(total, 1000) with total 191 and last_updated 2026-10-21 matching a direct openFDA call",
+      "status": "FAIL",
+      "observed": "direct openFDA total 191, last_updated 2026-10-21; Zetaris is not configured, so the Zetaris side was not run",
+      "checkedAt": "2026-11-01T02:35:00.187Z"
+    },
+    {
+      "queryId": null,
+      "evidencePath": null,
+      "id": "V-04",
+      "title": "FDA shortage table shape + bounded count",
+      "source": "FDA_RAW.shortages_p00",
+      "expected": "first page holds 100 rows of total 1615 with last_updated 2026-10-30",
+      "status": "FAIL",
+      "observed": "direct openFDA total 1615, last_updated 2026-10-30; Zetaris is not configured, so the Zetaris side was not run",
+      "checkedAt": "2026-11-01T02:35:00.549Z"
+    },
+    {
+      "queryId": null,
+      "evidencePath": null,
+      "id": "V-05",
+      "title": "Receiving CSV row count = file line count",
+      "source": "lots_files.receiving_lots",
+      "expected": "Zetaris row count equals 39 data lines (sha256 e96589b6e348)",
+      "status": "FAIL",
+      "observed": "file has 39 data lines; Zetaris is not configured, so the Zetaris side was not run",
+      "checkedAt": "2026-11-01T02:35:00.550Z"
+    },
+    {
+      "queryId": null,
+      "evidencePath": "sql/named/alerts_master.sql",
+      "id": "V-06",
+      "title": "Four-source SQL parses and returns rows",
+      "source": "sql/named/alerts_master.sql",
+      "expected": "one statement referencing pharmacy_pg.dispensing, fda.recalls_by_ndc, fda.shortages_by_ndc, lots_files.receiving_lots returns at least one row",
+      "status": "FAIL",
+      "observed": "SQL references all four sources; Zetaris is not configured, so the Zetaris side was not run",
+      "checkedAt": "2026-11-01T02:35:00.551Z"
+    },
+    {
+      "queryId": null,
+      "evidencePath": "evidence/sql-editor-case-ids.json",
+      "id": "V-07",
+      "title": "SQL Editor and backend same case IDs",
+      "source": "alerts_master",
+      "expected": "case keys exported from the SQL Editor to evidence/sql-editor-case-ids.json equal the backend run",
+      "status": "FAIL",
+      "observed": "evidence/sql-editor-case-ids.json does not exist; Zetaris is not configured, so the Zetaris side was not run",
+      "checkedAt": "2026-11-01T02:35:00.551Z"
+    },
+    {
+      "queryId": null,
+      "evidencePath": null,
+      "id": "V-08",
+      "title": "Source INSERT increases unique case IDs",
+      "source": "pharmacy_pg.dispensing",
+      "expected": "after one committed INSERT the same SQL gains exactly D-0038-2027:900001",
+      "status": "FAIL",
+      "observed": "Zetaris is not configured, so the Zetaris side was not run; no row was inserted",
+      "checkedAt": "2026-11-01T02:35:00.553Z"
+    },
+    {
+      "queryId": null,
+      "evidencePath": null,
+      "id": "V-09",
+      "title": "No unauthorized writer permission",
+      "source": "zetaris principal",
+      "expected": "a CREATE attempted as the runtime principal is refused",
+      "status": "FAIL",
+      "observed": "Zetaris is not configured, so the Zetaris side was not run",
+      "checkedAt": "2026-11-01T02:35:00.553Z"
+    },
+    {
+      "queryId": "8145c2ac-d8e8-4e11-b925-5230ff6e0a73",
+      "evidencePath": null,
+      "id": "V-10",
+      "title": "Source outage does not appear as 0 cases",
+      "source": "http://127.0.0.1:8820/api/alerts",
+      "expected": "with a source down, /api/alerts answers a failure state with no alert rows, never EMPTY_VERIFIED",
+      "status": "PASS",
+      "observed": "down: zetaris; /api/alerts answered SOURCE_UNAVAILABLE with no alert rows",
+      "checkedAt": "2026-11-01T02:35:00.573Z"
+    }
+  ]
+}
