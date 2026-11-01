@@ -1,0 +1,283 @@
+@import "tailwindcss";
+@import "@fontsource-variable/albert-sans";
+@import "@fontsource/ibm-plex-mono/300.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1280px;
+
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-ink: #13171d;
+  --color-ink-2: #262b33;
+  --color-mute: #747a82;
+  --color-line: #dcdee2;
+  --color-mist: #f6f7f8;
+  --color-accent: #0a8174;
+  --color-accent-hover: #086c61;
+  --color-accent-soft: #e3f4f1;
+  --color-petrol: #123a40;
+  --color-periwinkle: #8e9ef5;
+  --color-sky: #6cc3ff;
+  --color-amber: #e9b949;
+  --color-taupe: #5f6470;
+  --color-critical: #c2392d;
+  --color-critical-soft: #fbe7e4;
+  --color-caution: #9a6412;
+  --color-caution-soft: #fbf0d9;
+  --color-calm: #2d6a8f;
+  --color-calm-soft: #e4eff6;
+
+  --font-sans: "Albert Sans Variable", "Albert Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius-btn: 0.5rem;
+  --radius-bar: 0.75rem;
+  --radius-card: 0.75rem;
+  --radius-tile: 1rem;
+  --radius-panel: 2rem;
+  --radius-pill: 6rem;
+
+  --ease-patch: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+html {
+  font-size: calc(0.7410714285714287rem + 0.35714285714285704vw);
+}
+
+@media screen and (max-width: 1720px) {
+  html {
+    font-size: calc(0.7410714285714284rem + 0.35714285714285726vw);
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  html {
+    font-size: calc(-0.6250000000000004rem + 1.8750000000000004vw);
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  html {
+    font-size: 0.875rem;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  html {
+    font-size: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  html {
+    font-size: 1rem;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-ink);
+    background-color: var(--color-ink);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-white);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@utility type-hero {
+  font-size: 8rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 300;
+  @media (max-width: 991px) {
+    font-size: 5rem;
+  }
+  @media (max-width: 767px) {
+    font-size: 4rem;
+  }
+  @media (max-width: 479px) {
+    font-size: 3.5rem;
+  }
+}
+
+@utility type-h2 {
+  font-size: 4.5rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 300;
+  @media (max-width: 991px) {
+    font-size: 2.75rem;
+  }
+  @media (max-width: 767px) {
+    font-size: 2.25rem;
+  }
+}
+
+@utility type-h4 {
+  font-size: 3rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 300;
+  @media (max-width: 991px) {
+    font-size: 2.5rem;
+  }
+  @media (max-width: 767px) {
+    font-size: 2rem;
+  }
+}
+
+@utility type-h5 {
+  font-size: 2rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 300;
+  @media (max-width: 767px) {
+    font-size: 1.25rem;
+  }
+}
+
+@utility type-h6 {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 300;
+}
+
+@utility type-large {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 300;
+  @media (max-width: 479px) {
+    font-size: 1.125rem;
+  }
+}
+
+@utility type-small {
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+
+@utility type-tag {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility glass {
+  background-color: rgb(255 255 255 / 0.2);
+  border: 1px solid var(--color-line);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@utility glass-soft {
+  background-color: rgb(255 255 255 / 0.33);
+  border: 1px solid rgb(255 255 255 / 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee var(--marquee-duration, 25s) linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@utility hover-pause {
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+@utility surface-hero {
+  background-color: #0e2a2e;
+  background-image:
+    radial-gradient(60% 55% at 78% 22%, rgb(64 150 150 / 0.75), transparent 70%),
+    radial-gradient(45% 40% at 30% 30%, rgb(38 110 116 / 0.7), transparent 70%),
+    radial-gradient(55% 60% at 60% 70%, rgb(12 52 58 / 0.9), transparent 70%),
+    radial-gradient(40% 35% at 90% 85%, rgb(120 88 60 / 0.45), transparent 70%),
+    linear-gradient(160deg, #1d4b50 0%, #0c2427 55%, #081a1d 100%);
+}
+
+@utility surface-deep {
+  background-color: #11161c;
+  background-image:
+    radial-gradient(70% 60% at 85% 10%, rgb(30 92 96 / 0.55), transparent 70%),
+    radial-gradient(60% 60% at 10% 90%, rgb(38 43 51 / 0.9), transparent 70%),
+    linear-gradient(180deg, #161c23 0%, #0d1116 100%);
+}
+
+@utility surface-tile {
+  background-color: #1c2229;
+  background-image:
+    radial-gradient(80% 70% at 30% 20%, rgb(10 129 116 / 0.35), transparent 70%),
+    linear-gradient(200deg, #232a33 0%, #151a20 100%);
+}
+
+@utility surface-light {
+  background-color: #e9ecef;
+  background-image:
+    radial-gradient(70% 60% at 80% 20%, rgb(10 129 116 / 0.18), transparent 70%),
+    linear-gradient(180deg, #eef1f3 0%, #dfe4e8 100%);
+}
+
+@utility surface-horizon {
+  background-image: radial-gradient(
+    50% 100% at 50% 100%,
+    rgb(26 120 112 / 0.85) 0%,
+    rgb(14 64 70 / 0.6) 45%,
+    transparent 75%
+  );
+}
