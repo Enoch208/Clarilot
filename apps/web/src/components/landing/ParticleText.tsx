@@ -1,8 +1,12 @@
 import { useEffect, useRef } from "react";
-import { useReducedMotion } from "motion/react";
-import { createField, settleField, type Field } from "@/lib/particle-field";
+import { buildPalette, drawField, stepField, type Field } from "@/lib/particle-field";
+import { glyphRadius, sampleText, toRgb } from "@/lib/particle-sample";
+import { pointerPresent, readPointer, trackPointer } from "@/lib/pointer-tracker";
+import { useMediaQuery } from "@/lib/use-media-query";
 
-const bleed = 54;
+const motionQuery = "(min-width: 767px) and (prefers-reduced-motion: no-preference)";
+const tintTokens = ["--color-accent", "--color-periwinkle", "--color-sky", "--color-amber"];
+const rebuildDelayMs = 150;
 
 type ParticleTextProps = {
   text: string;
@@ -11,85 +15,109 @@ type ParticleTextProps = {
 export function ParticleText({ text }: ParticleTextProps) {
   const spanRef = useRef<HTMLSpanElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const reduceMotion = useReducedMotion() === true;
+  const enabled = useMediaQuery(motionQuery);
 
   useEffect(() => {
     const span = spanRef.current;
     const canvas = canvasRef.current;
-    if (!span || !canvas) return;
+    if (!enabled || !span || !canvas) return;
     const context = canvas.getContext("2d");
     if (!context) return;
+    const root = getComputedStyle(document.documentElement);
+    const tints = tintTokens.map((token) => toRgb(root.getPropertyValue(token).trim()));
+    const palette = buildPalette(toRgb(getComputedStyle(span).color), tints);
     let field: Field | null = null;
+    let radius = 1;
     let frame = 0;
-    let pointer: { x: number; y: number } | null = null;
+    let visible = true;
+    let rebuildTimer = 0;
 
-    const draw = () => {
+    const tick = () => {
+      frame = 0;
       if (!field) return;
-      const moving = settleField(field, pointer);
-      context.setTransform(field.ratio, 0, 0, field.ratio, 0, 0);
-      context.clearRect(0, 0, field.width, field.height);
-      context.fillStyle = "#ffffff";
-      context.beginPath();
-      for (const dot of field.dots) {
-        context.moveTo(dot.x + field.radius, dot.y);
-        context.arc(dot.x, dot.y, field.radius, 0, Math.PI * 2);
-      }
-      context.fill();
-      frame = moving || pointer ? requestAnimationFrame(draw) : 0;
+      const box = canvas.getBoundingClientRect();
+      const pointer = readPointer();
+      const busy = stepField(field, {
+        x: pointer.x - box.left,
+        y: pointer.y - box.top,
+        vx: pointer.vx,
+        vy: pointer.vy,
+        moving: pointer.moving,
+        present: pointerPresent(pointer),
+      });
+      drawField(context, field, palette, radius);
+      if (visible && (busy || pointer.moving)) frame = requestAnimationFrame(tick);
+    };
+
+    const wake = () => {
+      if (frame === 0 && visible && field) frame = requestAnimationFrame(tick);
     };
 
     const build = () => {
       const style = getComputedStyle(span);
       const box = span.getBoundingClientRect();
-      field = createField({
+      field = sampleText({
         text,
-        font: `420 ${style.fontSize} ${style.fontFamily}`,
+        font: `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`,
         letterSpacing: style.letterSpacing,
-        width: box.width + bleed * 2,
-        height: box.height + bleed * 2,
-        bleed,
-        fontSize: parseFloat(style.fontSize),
-        ratio: window.devicePixelRatio,
+        width: box.width,
+        height: box.height,
+        tints: tints.length,
       });
-      canvas.width = Math.round(field.width * field.ratio);
-      canvas.height = Math.round(field.height * field.ratio);
+      if (field.particles.length === 0) {
+        field = null;
+        canvas.hidden = true;
+        span.style.color = "";
+        return;
+      }
+      const ratio = Math.max(1, window.devicePixelRatio);
+      canvas.width = Math.round(field.width * ratio);
+      canvas.height = Math.round(field.height * ratio);
       canvas.style.width = `${String(field.width)}px`;
       canvas.style.height = `${String(field.height)}px`;
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(draw);
+      canvas.style.top = `${String(-field.bleed)}px`;
+      canvas.style.left = `${String(-field.bleed)}px`;
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      radius = glyphRadius(context);
+      canvas.hidden = false;
+      span.style.color = "transparent";
+      drawField(context, field, palette, radius);
+      wake();
     };
 
-    const onMove = (event: PointerEvent) => {
-      if (reduceMotion) return;
-      const box = canvas.getBoundingClientRect();
-      pointer = { x: event.clientX - box.left, y: event.clientY - box.top };
-      if (frame === 0) frame = requestAnimationFrame(draw);
-    };
-    const onLeave = () => {
-      pointer = null;
+    const scheduleBuild = () => {
+      window.clearTimeout(rebuildTimer);
+      rebuildTimer = window.setTimeout(build, rebuildDelayMs);
     };
 
+    const visibility = new IntersectionObserver((entries) => {
+      for (const entry of entries) visible = entry.isIntersecting;
+      wake();
+    });
+    const resize = new ResizeObserver(scheduleBuild);
     void document.fonts.ready.then(build);
-    const observer = new ResizeObserver(build);
-    observer.observe(span);
-    window.addEventListener("pointermove", onMove);
-    span.addEventListener("pointerleave", onLeave);
+    visibility.observe(span);
+    resize.observe(span);
+    const untrack = trackPointer(wake);
     return () => {
-      observer.disconnect();
+      untrack();
+      visibility.disconnect();
+      resize.disconnect();
+      window.clearTimeout(rebuildTimer);
       cancelAnimationFrame(frame);
-      window.removeEventListener("pointermove", onMove);
-      span.removeEventListener("pointerleave", onLeave);
+      canvas.hidden = true;
+      span.style.color = "";
     };
-  }, [text, reduceMotion]);
+  }, [text, enabled]);
 
   return (
-    <span ref={spanRef} className="relative inline-block whitespace-nowrap text-transparent">
+    <span ref={spanRef} className="relative inline-block whitespace-nowrap">
       {text}
       <canvas
         ref={canvasRef}
         aria-hidden="true"
-        className="pointer-events-none absolute"
-        style={{ top: -bleed, left: -bleed }}
+        hidden
+        className="pointer-events-none absolute max-w-none"
       />
     </span>
   );

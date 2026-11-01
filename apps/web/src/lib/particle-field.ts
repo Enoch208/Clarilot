@@ -1,83 +1,113 @@
-export type Dot = { x: number; y: number; hx: number; hy: number; vx: number; vy: number };
+export type Rgb = readonly [number, number, number];
 
-export type Field = {
-  dots: Dot[];
-  width: number;
-  height: number;
-  radius: number;
-  ratio: number;
-  reach: number;
+export type Particle = {
+  x: number;
+  y: number;
+  hx: number;
+  hy: number;
+  vx: number;
+  vy: number;
+  tint: number;
+  level: number;
 };
 
-type FieldInput = {
-  text: string;
-  font: string;
-  letterSpacing: string;
+export type Field = {
+  particles: Particle[];
   width: number;
   height: number;
   bleed: number;
-  fontSize: number;
-  ratio: number;
 };
 
-export function createField(input: FieldInput): Field {
-  const scratch = document.createElement("canvas");
-  scratch.width = Math.ceil(input.width);
-  scratch.height = Math.ceil(input.height);
-  const context = scratch.getContext("2d", { willReadFrequently: true });
-  const step = Math.max(2.6, input.fontSize * 0.0265);
-  const radius = step * 0.42;
-  const empty = {
-    dots: [],
-    width: input.width,
-    height: input.height,
-    radius,
-    ratio: input.ratio,
-    reach: step * 16,
-  };
-  if (!context) return empty;
-  context.font = input.font;
-  context.letterSpacing = input.letterSpacing === "normal" ? "0px" : input.letterSpacing;
-  context.textBaseline = "alphabetic";
-  context.fillStyle = "#000000";
-  const metrics = context.measureText(input.text);
-  const baseline =
-    input.bleed +
-    (input.height -
-      input.bleed * 2 +
-      metrics.fontBoundingBoxAscent -
-      metrics.fontBoundingBoxDescent) /
-      2;
-  context.fillText(input.text, input.bleed, baseline);
-  const pixels = context.getImageData(0, 0, scratch.width, scratch.height).data;
-  const dots: Dot[] = [];
-  for (let y = step / 2; y < scratch.height; y += step) {
-    for (let x = step / 2; x < scratch.width; x += step) {
-      const alpha = pixels[(Math.floor(y) * scratch.width + Math.floor(x)) * 4 + 3] ?? 0;
-      if (alpha > 110) dots.push({ x, y, hx: x, hy: y, vx: 0, vy: 0 });
+export type FieldPointer = {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  moving: boolean;
+  present: boolean;
+};
+
+export const particleTuning = {
+  gap: 3,
+  dot: 2.2,
+  reach: 30 + (1 / 9) * 220,
+  force: 0.06 + (0.5 / 9) * 0.54,
+  spring: 0.015,
+  damping: 0.48 + (6 / 9) * 0.44,
+  colorAt: 20,
+  maxPush: 50,
+  levels: 8,
+  rest: 0.05,
+} as const;
+
+export function stepField(field: Field, pointer: FieldPointer): boolean {
+  const { reach, force, spring, damping, colorAt, maxPush, levels, rest } = particleTuning;
+  const push = Math.min(Math.hypot(pointer.vx, pointer.vy) * force, maxPush);
+  let busy = false;
+  for (const particle of field.particles) {
+    const dx = particle.x - pointer.x;
+    const dy = particle.y - pointer.y;
+    const distance = Math.hypot(dx, dy);
+    if (pointer.moving && distance < reach && distance > 0) {
+      const magnitude = ((reach - distance) / reach) * push;
+      particle.vx += (dx / distance) * magnitude;
+      particle.vy += (dy / distance) * magnitude;
     }
+    particle.vx = (particle.vx + (particle.hx - particle.x) * spring) * damping;
+    particle.vy = (particle.vy + (particle.hy - particle.y) * spring) * damping;
+    particle.x += particle.vx;
+    particle.y += particle.vy;
+    const displacement = Math.hypot(particle.x - particle.hx, particle.y - particle.hy);
+    const near = pointer.present
+      ? Math.max(0, 1 - Math.hypot(particle.x - pointer.x, particle.y - pointer.y) / reach)
+      : 0;
+    const tint = Math.max(Math.min(displacement / colorAt, 1), near);
+    particle.level = Math.round(tint * levels);
+    if (displacement > rest || particle.level > 0) busy = true;
   }
-  return { ...empty, dots };
+  return busy;
 }
 
-export function settleField(field: Field, pointer: { x: number; y: number } | null): boolean {
-  let moving = false;
-  for (const dot of field.dots) {
-    if (pointer) {
-      const dx = dot.x - pointer.x;
-      const dy = dot.y - pointer.y;
-      const distance = Math.hypot(dx, dy);
-      if (distance < field.reach && distance > 0.01) {
-        const push = ((field.reach - distance) / field.reach) * 1.5;
-        dot.vx += (dx / distance) * push;
-        dot.vy += (dy / distance) * push;
-      }
+export function paletteKey(particle: Particle) {
+  if (particle.level === 0) return 0;
+  return 1 + particle.tint * particleTuning.levels + particle.level - 1;
+}
+
+export function buildPalette(ink: Rgb, tints: readonly Rgb[]): string[] {
+  const css = (rgb: Rgb) => `rgb(${rgb.map((value) => String(Math.round(value))).join(",")})`;
+  const palette = [css(ink)];
+  for (const tint of tints) {
+    for (let level = 1; level <= particleTuning.levels; level += 1) {
+      const share = level / particleTuning.levels;
+      palette.push(
+        css([
+          ink[0] + (tint[0] - ink[0]) * share,
+          ink[1] + (tint[1] - ink[1]) * share,
+          ink[2] + (tint[2] - ink[2]) * share,
+        ]),
+      );
     }
-    dot.vx = (dot.vx + (dot.hx - dot.x) * 0.06) * 0.86;
-    dot.vy = (dot.vy + (dot.hy - dot.y) * 0.06) * 0.86;
-    dot.x += dot.vx;
-    dot.y += dot.vy;
-    if (Math.abs(dot.vx) > 0.02 || Math.abs(dot.vy) > 0.02) moving = true;
   }
-  return moving;
+  return palette;
+}
+
+export function drawField(
+  context: CanvasRenderingContext2D,
+  field: Field,
+  palette: readonly string[],
+  radius: number,
+) {
+  const groups: Particle[][] = palette.map(() => []);
+  for (const particle of field.particles) groups[paletteKey(particle)]?.push(particle);
+  context.clearRect(0, 0, field.width, field.height);
+  groups.forEach((group, key) => {
+    if (group.length === 0) return;
+    context.fillStyle = palette[key] ?? palette[0] ?? "white";
+    context.beginPath();
+    for (const particle of group) {
+      context.moveTo(particle.x + radius, particle.y);
+      context.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
+    }
+    context.fill();
+  });
 }
