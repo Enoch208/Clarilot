@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { m, AnimatePresence } from "motion/react";
 import { ButtonLink } from "@/components/ui/Button";
 import { ImageSlot } from "@/components/ui/ImageSlot";
@@ -9,11 +8,10 @@ import { SectionFrame } from "./SectionFrame";
 import { SystemDiagram } from "./SystemDiagram";
 import { systemSteps } from "./system-steps";
 
-const period = 8000;
+const period = 20000;
 
 export function SystemSection() {
-  const [hovering, setHovering] = useState(false);
-  const { index, round, select } = useCycle(systemSteps.length, period, hovering);
+  const { index, round, select } = useCycle(systemSteps.length, period, false);
   return (
     <SectionFrame id="system" className="pt-8">
       <div className="flex flex-col gap-4 pt-[1.6rem] pb-8 lg:flex-row">
@@ -29,15 +27,7 @@ export function SystemSection() {
               </ButtonLink>
             </div>
           </div>
-          <div
-            className="mt-[6rem] max-w-[27rem]"
-            onMouseEnter={() => {
-              setHovering(true);
-            }}
-            onMouseLeave={() => {
-              setHovering(false);
-            }}
-          >
+          <div className="mt-[6rem] max-w-[27rem]">
             {systemSteps.map((step, stepIndex) => {
               const isActive = stepIndex === index;
               return (

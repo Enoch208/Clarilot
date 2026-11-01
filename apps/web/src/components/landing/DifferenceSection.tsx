@@ -53,7 +53,7 @@ const tabs: readonly Tab[] = [
   },
 ];
 
-const period = 8000;
+const period = 20000;
 
 export function DifferenceSection() {
   const { index, round, select } = useCycle(tabs.length, period, false);
