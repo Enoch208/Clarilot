@@ -11,6 +11,7 @@ import { ProgressLine } from "@/components/ui/ProgressLine";
 import { TagPill } from "@/components/ui/TagPill";
 import type { ImageName } from "@/lib/images";
 import { useCycle } from "@/lib/use-cycle";
+import { CursorCta } from "./CursorCta";
 import { SectionFrame } from "./SectionFrame";
 
 type Tab = {
@@ -73,9 +74,8 @@ export function DifferenceSection() {
             key={current.image}
             className="absolute inset-0"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
+            animate={{ opacity: 1, transition: { duration: 0.3, ease: "easeInOut" } }}
+            exit={{ opacity: 0, transition: { duration: 0.1, ease: "easeInOut" } }}
           >
             <ImageSlot
               name={current.image}
@@ -93,6 +93,7 @@ export function DifferenceSection() {
           </span>
           {current.chip}
         </div>
+        <CursorCta to={current.link} />
       </div>
       <div className="mt-[3rem] grid gap-4 md:grid-cols-3">
         {tabs.map((tab, tabIndex) => {
