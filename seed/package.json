@@ -5,7 +5,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "pick": "tsx pick_recalls.ts && prettier --write recalls_used.json",
-    "generate": "tsx generate.ts"
+    "generate": "tsx generate.ts && prettier --write fixtures.json",
+    "formulary": "tsx pick_formulary.ts && prettier --write formulary_products.json"
   },
   "dependencies": {
     "@clarilot/core": "workspace:*",

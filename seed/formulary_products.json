@@ -1,0 +1,644 @@
+{
+  "fetchedAt": "2026-11-01T02:12:46.641Z",
+  "source": "https://api.fda.gov/drug/ndc.json",
+  "metaLastUpdated": "2026-10-30",
+  "selection": "first 3 ANDA oral finished single-ingredient products per generic by product_ndc",
+  "excludedRecallKeys": {
+    "search": "_exists_:openfda.product_ndc AND report_date:[20250101 TO 20991231]",
+    "enforcementRecords": 769,
+    "productKeys": 1168,
+    "fetchedAt": "2026-11-01T02:12:44.990Z"
+  },
+  "products": [
+    {
+      "productNdc": "0093-5056",
+      "genericName": "Atorvastatin Calcium",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0378-3950",
+      "genericName": "atorvastatin calcium",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0480-3585",
+      "genericName": "Atorvastatin Calcium",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Teva Pharmaceuticals, Inc."
+    },
+    {
+      "productNdc": "0591-0885",
+      "genericName": "Lisinopril",
+      "strength": "30 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Actavis Pharma, Inc."
+    },
+    {
+      "productNdc": "0615-8548",
+      "genericName": "Lisinopril",
+      "strength": "30 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0904-6797",
+      "genericName": "Lisinopril",
+      "strength": "5 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Major Pharmaceuticals"
+    },
+    {
+      "productNdc": "0378-6001",
+      "genericName": "metformin",
+      "strength": "1000 mg/1",
+      "dosageForm": "TABLET, FILM COATED, EXTENDED RELEASE",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0378-6002",
+      "genericName": "metformin",
+      "strength": "500 mg/1",
+      "dosageForm": "TABLET, FILM COATED, EXTENDED RELEASE",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0615-8015",
+      "genericName": "Metformin Hydrochloride",
+      "strength": "500 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0480-7167",
+      "genericName": "Amlodipine Besylate",
+      "strength": "5 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals, Inc."
+    },
+    {
+      "productNdc": "0480-7168",
+      "genericName": "Amlodipine Besylate",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals, Inc."
+    },
+    {
+      "productNdc": "29300-396",
+      "genericName": "Amlodipine Besylate",
+      "strength": "2.5 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Unichem Pharmaceuticals (USA), Inc."
+    },
+    {
+      "productNdc": "31722-284",
+      "genericName": "levothyroxine sodium",
+      "strength": ".025 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Camber Pharmaceuticals, Inc."
+    },
+    {
+      "productNdc": "31722-285",
+      "genericName": "levothyroxine sodium",
+      "strength": ".05 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Camber Pharmaceuticals, Inc."
+    },
+    {
+      "productNdc": "31722-286",
+      "genericName": "levothyroxine sodium",
+      "strength": ".075 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Camber Pharmaceuticals, Inc."
+    },
+    {
+      "productNdc": "0113-6010",
+      "genericName": "Omeprazole",
+      "strength": "20 mg/1",
+      "dosageForm": "CAPSULE, DELAYED RELEASE",
+      "labelerName": "L. Perrigo Company"
+    },
+    {
+      "productNdc": "0363-1607",
+      "genericName": "Omeprazole",
+      "strength": "20 mg/1",
+      "dosageForm": "TABLET, DELAYED RELEASE",
+      "labelerName": "Walgreens Company"
+    },
+    {
+      "productNdc": "0363-6089",
+      "genericName": "Omeprazole magnesium",
+      "strength": "20 mg/1",
+      "dosageForm": "CAPSULE, DELAYED RELEASE",
+      "labelerName": "Walgreen Company"
+    },
+    {
+      "productNdc": "11788-100",
+      "genericName": "Losartan Potassium",
+      "strength": "25 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "AiPing Pharmaceutical, Inc."
+    },
+    {
+      "productNdc": "11788-101",
+      "genericName": "Losartan Potassium",
+      "strength": "50 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "AiPing Pharmaceutical, Inc."
+    },
+    {
+      "productNdc": "11788-102",
+      "genericName": "Losartan Potassium",
+      "strength": "100 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "AiPing Pharmaceutical, Inc."
+    },
+    {
+      "productNdc": "0615-7992",
+      "genericName": "SIMVASTATIN",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0615-7993",
+      "genericName": "SIMVASTATIN",
+      "strength": "20 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "16729-004",
+      "genericName": "simvastatin",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Accord Healthcare, Inc."
+    },
+    {
+      "productNdc": "0615-8603",
+      "genericName": "Sertraline Hydrochloride",
+      "strength": "50 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0615-8604",
+      "genericName": "Sertraline Hydrochloride",
+      "strength": "100 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0904-6924",
+      "genericName": "Sertraline Hydrochloride",
+      "strength": "25 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Major Pharmaceuticals"
+    },
+    {
+      "productNdc": "0121-1067",
+      "genericName": "Gabapentin",
+      "strength": "250 mg/5mL",
+      "dosageForm": "SOLUTION",
+      "labelerName": "PAI Holdings, LLC dba PAI Pharma"
+    },
+    {
+      "productNdc": "0121-4067",
+      "genericName": "Gabapentin",
+      "strength": "250 mg/5mL",
+      "dosageForm": "SOLUTION",
+      "labelerName": "PAI Holdings, LLC dba PAI Pharma"
+    },
+    {
+      "productNdc": "0904-6665",
+      "genericName": "Gabapentin",
+      "strength": "100 mg/1",
+      "dosageForm": "CAPSULE",
+      "labelerName": "Major Pharmaceuticals"
+    },
+    {
+      "productNdc": "0172-2083",
+      "genericName": "Hydrochlorothiazide",
+      "strength": "25 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0172-2089",
+      "genericName": "Hydrochlorothiazide",
+      "strength": "50 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0172-3444",
+      "genericName": "Hydrochlorothiazide",
+      "strength": "12.5 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0378-0018",
+      "genericName": "metoprolol tartrate",
+      "strength": "25 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0378-0032",
+      "genericName": "metoprolol tartrate",
+      "strength": "50 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0378-0047",
+      "genericName": "metoprolol tartrate",
+      "strength": "100 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0904-6808",
+      "genericName": "Montelukast Sodium",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Major Pharmaceuticals"
+    },
+    {
+      "productNdc": "13668-531",
+      "genericName": "Montelukast Sodium",
+      "strength": "4 mg/500mg",
+      "dosageForm": "GRANULE",
+      "labelerName": "Torrent Pharmaceuticals Limited"
+    },
+    {
+      "productNdc": "16729-119",
+      "genericName": "Montelukast Sodium",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Accord Healthcare Inc."
+    },
+    {
+      "productNdc": "0615-8476",
+      "genericName": "Escitalopram Oxalate",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0615-8477",
+      "genericName": "Escitalopram Oxalate",
+      "strength": "20 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0904-6426",
+      "genericName": "escitalopram",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Major Pharmaceuticals"
+    },
+    {
+      "productNdc": "13668-720",
+      "genericName": "Rosuvastatin Calcium",
+      "strength": "5 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "TORRENT PHARMACEUTICALS LIMITED"
+    },
+    {
+      "productNdc": "13668-721",
+      "genericName": "Rosuvastatin Calcium",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "TORRENT PHARMACEUTICALS LIMITED"
+    },
+    {
+      "productNdc": "13668-722",
+      "genericName": "Rosuvastatin Calcium",
+      "strength": "20 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "TORRENT PHARMACEUTICALS LIMITED"
+    },
+    {
+      "productNdc": "0378-6688",
+      "genericName": "pantoprazole sodium",
+      "strength": "20 mg/1",
+      "dosageForm": "TABLET, DELAYED RELEASE",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0378-6689",
+      "genericName": "pantoprazole sodium",
+      "strength": "40 mg/1",
+      "dosageForm": "TABLET, DELAYED RELEASE",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0615-7629",
+      "genericName": "pantoprazole sodium",
+      "strength": "40 mg/1",
+      "dosageForm": "TABLET, DELAYED RELEASE",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0054-3294",
+      "genericName": "Furosemide",
+      "strength": "10 mg/mL",
+      "dosageForm": "SOLUTION",
+      "labelerName": "Hikma Pharmaceuticals USA Inc."
+    },
+    {
+      "productNdc": "0054-3298",
+      "genericName": "Furosemide",
+      "strength": "40 mg/5mL",
+      "dosageForm": "SOLUTION",
+      "labelerName": "Hikma Pharmaceuticals USA Inc."
+    },
+    {
+      "productNdc": "0054-4301",
+      "genericName": "Furosemide",
+      "strength": "80 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Hikma Pharmaceuticals USA Inc."
+    },
+    {
+      "productNdc": "0093-7198",
+      "genericName": "Fluoxetine",
+      "strength": "40 mg/1",
+      "dosageForm": "CAPSULE",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0121-0721",
+      "genericName": "FLUOXETINE HYDROCHLORIDE",
+      "strength": "20 mg/5mL",
+      "dosageForm": "SOLUTION",
+      "labelerName": "PAI Holdings, LLC dba PAI Pharma"
+    },
+    {
+      "productNdc": "0121-4721",
+      "genericName": "FLUOXETINE HYDROCHLORIDE",
+      "strength": "20 mg/5mL",
+      "dosageForm": "SOLUTION",
+      "labelerName": "PAI Holdings, LLC dba PAI Pharma"
+    },
+    {
+      "productNdc": "0093-7201",
+      "genericName": "Pravastatin Sodium",
+      "strength": "20 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0480-7270",
+      "genericName": "Pravastatin Sodium",
+      "strength": "80 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals, Inc."
+    },
+    {
+      "productNdc": "0615-8539",
+      "genericName": "PRAVASTATIN SODIUM",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0115-8211",
+      "genericName": "TAMSULOSIN HYDROCHLORIDE",
+      "strength": ".4 mg/1",
+      "dosageForm": "CAPSULE",
+      "labelerName": "Amneal Pharmaceuticals of New York LLC"
+    },
+    {
+      "productNdc": "0615-8055",
+      "genericName": "Tamsulosin Hydrochloride",
+      "strength": ".4 mg/1",
+      "dosageForm": "CAPSULE",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0781-2076",
+      "genericName": "tamsulosin hydrochloride",
+      "strength": ".4 mg/1",
+      "dosageForm": "CAPSULE",
+      "labelerName": "Sandoz Inc"
+    },
+    {
+      "productNdc": "0054-0062",
+      "genericName": "Citalopram",
+      "strength": "10 mg/5mL",
+      "dosageForm": "SOLUTION",
+      "labelerName": "Hikma Pharmaceuticals USA Inc."
+    },
+    {
+      "productNdc": "0378-6231",
+      "genericName": "citalopram",
+      "strength": "10 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0378-6232",
+      "genericName": "citalopram",
+      "strength": "20 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0555-0711",
+      "genericName": "Trazodone Hydrochloride",
+      "strength": "300 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0615-8339",
+      "genericName": "Trazodone Hydrochloride",
+      "strength": "150 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0615-8371",
+      "genericName": "Trazodone Hydrochloride",
+      "strength": "50 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0093-0051",
+      "genericName": "Carvedilol",
+      "strength": "3.125 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0093-0135",
+      "genericName": "Carvedilol",
+      "strength": "6.25 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0093-7295",
+      "genericName": "Carvedilol",
+      "strength": "12.5 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0615-8040",
+      "genericName": "meloxicam",
+      "strength": "7.5 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0615-8124",
+      "genericName": "Meloxicam",
+      "strength": "15 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "11788-046",
+      "genericName": "Meloxicam",
+      "strength": "7.5 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "AiPing Pharmaceutical, Inc"
+    },
+    {
+      "productNdc": "0093-7314",
+      "genericName": "Clopidogrel",
+      "strength": "75 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0615-8625",
+      "genericName": "Clopidogrel bisulfate",
+      "strength": "75 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "NCS HealthCare of KY, LLC dba Vangard Labs"
+    },
+    {
+      "productNdc": "0904-6467",
+      "genericName": "clopidogrel bisulfate",
+      "strength": "300 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Major Pharmaceuticals"
+    },
+    {
+      "productNdc": "0115-5445",
+      "genericName": "BUPROPION HYDROCHLORIDE",
+      "strength": "200 mg/1",
+      "dosageForm": "TABLET, FILM COATED, EXTENDED RELEASE",
+      "labelerName": "Amneal Pharmaceuticals of New York LLC"
+    },
+    {
+      "productNdc": "0115-6811",
+      "genericName": "BUPROPION HYDROCHLORIDE",
+      "strength": "150 mg/1",
+      "dosageForm": "TABLET, FILM COATED, EXTENDED RELEASE",
+      "labelerName": "Amneal Pharmaceuticals of New York LLC"
+    },
+    {
+      "productNdc": "0527-2415",
+      "genericName": "Bupropion hydrochloride",
+      "strength": "150 mg/1",
+      "dosageForm": "TABLET, EXTENDED RELEASE",
+      "labelerName": "Lannett Company Inc."
+    },
+    {
+      "productNdc": "0228-2890",
+      "genericName": "Duloxetine",
+      "strength": "20 mg/1",
+      "dosageForm": "CAPSULE, DELAYED RELEASE PELLETS",
+      "labelerName": "Actavis Pharma, Inc."
+    },
+    {
+      "productNdc": "0228-2891",
+      "genericName": "Duloxetine",
+      "strength": "30 mg/1",
+      "dosageForm": "CAPSULE, DELAYED RELEASE PELLETS",
+      "labelerName": "Actavis Pharma, Inc."
+    },
+    {
+      "productNdc": "0228-2892",
+      "genericName": "Duloxetine",
+      "strength": "60 mg/1",
+      "dosageForm": "CAPSULE, DELAYED RELEASE PELLETS",
+      "labelerName": "Actavis Pharma, Inc."
+    },
+    {
+      "productNdc": "0378-0137",
+      "genericName": "allopurinol",
+      "strength": "100 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0378-0181",
+      "genericName": "allopurinol",
+      "strength": "300 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0603-2115",
+      "genericName": "allopurinol",
+      "strength": "100 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Par Health USA, LLC"
+    },
+    {
+      "productNdc": "0093-1712",
+      "genericName": "Warfarin Sodium",
+      "strength": "1 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0093-1713",
+      "genericName": "Warfarin Sodium",
+      "strength": "2 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0093-1714",
+      "genericName": "Warfarin Sodium",
+      "strength": "2.5 mg/1",
+      "dosageForm": "TABLET",
+      "labelerName": "Teva Pharmaceuticals USA, Inc."
+    },
+    {
+      "productNdc": "0378-0243",
+      "genericName": "spironolactone",
+      "strength": "50 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0378-0437",
+      "genericName": "spironolactone",
+      "strength": "100 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    },
+    {
+      "productNdc": "0378-2146",
+      "genericName": "spironolactone",
+      "strength": "25 mg/1",
+      "dosageForm": "TABLET, FILM COATED",
+      "labelerName": "Mylan Pharmaceuticals Inc."
+    }
+  ]
+}
