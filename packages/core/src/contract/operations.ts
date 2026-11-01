@@ -93,4 +93,19 @@ export const demoResetResponseSchema = z.object({
 });
 export type DemoResetResponse = z.infer<typeof demoResetResponseSchema>;
 
+export const demoCaseSchema = z.object({
+  demoCaseId: z.string(),
+  label: z.string(),
+  dispenseId: z.number().int().positive(),
+  recallNumber: recallNumberSchema,
+  inserted: z.boolean(),
+});
+export type DemoCase = z.infer<typeof demoCaseSchema>;
+
+export const demoCasesResponseSchema = z.object({
+  demoMode: z.boolean(),
+  cases: z.array(demoCaseSchema),
+});
+export type DemoCasesResponse = z.infer<typeof demoCasesResponseSchema>;
+
 export const demoTokenHeader = "x-demo-token";
