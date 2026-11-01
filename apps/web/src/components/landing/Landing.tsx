@@ -16,7 +16,9 @@ export function Landing() {
   const light = useInView(lightRef, { margin: "-55% 0px -40% 0px" });
   return (
     <LazyMotion features={domAnimation} strict>
-      <div className={`min-h-dvh transition-colors duration-700 ${light ? "bg-white" : "bg-ink"}`}>
+      <div
+        className={`min-h-dvh transition-colors ${light ? "bg-white duration-500 ease-[ease]" : "bg-ink duration-350 ease-[cubic-bezier(0.61,1,0.88,1)]"}`}
+      >
         <Navbar />
         <main>
           <Hero />
