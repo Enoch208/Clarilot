@@ -9,7 +9,7 @@ const optionalSecret = z.string().min(1).optional();
 
 export const apiEnvSchema = z.object({
   API_PORT: z.coerce.number().int().min(1).max(65_535).default(8820),
-  DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
+  DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }).optional(),
   OPENFDA_BASE_URL: z
     .url({ protocol: /^https$/ })
     .default("https://api.fda.gov")

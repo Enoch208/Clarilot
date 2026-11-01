@@ -6,7 +6,7 @@ import { z } from "zod";
 
 export const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 
-export const fromRepo = (relative: string) => path.resolve(repoRoot, relative);
+export const fromRepo = (relative: string, root: string = repoRoot) => path.resolve(root, relative);
 
 export const demoCaseFileSchema = z.object({
   demoCaseId: z.string().min(1),
@@ -26,12 +26,12 @@ const fixturesSchema = z.object({
   demoCases: z.array(demoCaseFileSchema),
 });
 
-export async function loadRecallsUsed(file: string): Promise<RecallsUsed> {
-  return recallsUsedSchema.parse(JSON.parse(await readFile(fromRepo(file), "utf8")));
+export async function loadRecallsUsed(file: string, root = repoRoot): Promise<RecallsUsed> {
+  return recallsUsedSchema.parse(JSON.parse(await readFile(fromRepo(file, root), "utf8")));
 }
 
-export async function loadDemoCases(): Promise<DemoCaseFile[]> {
-  const raw: unknown = JSON.parse(await readFile(fromRepo("seed/fixtures.json"), "utf8"));
+export async function loadDemoCases(root = repoRoot): Promise<DemoCaseFile[]> {
+  const raw: unknown = JSON.parse(await readFile(fromRepo("seed/fixtures.json", root), "utf8"));
   return fixturesSchema.parse(raw).demoCases;
 }
 
@@ -41,8 +41,8 @@ export type ReceivingStats = {
   fileModifiedAt: string;
 };
 
-export async function receivingStats(file: string): Promise<ReceivingStats> {
-  const absolute = fromRepo(file);
+export async function receivingStats(file: string, root = repoRoot): Promise<ReceivingStats> {
+  const absolute = fromRepo(file, root);
   const [content, info] = await Promise.all([readFile(absolute, "utf8"), stat(absolute)]);
   const lines = content.split("\n").filter((line) => line.trim() !== "");
   return {
