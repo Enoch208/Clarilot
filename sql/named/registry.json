@@ -1,0 +1,69 @@
+{
+  "verifiedInZetaris": false,
+  "queries": [
+    {
+      "name": "alerts_master",
+      "file": "alerts_master.sql",
+      "kind": "select",
+      "sourceIds": ["pharmacy_pg", "fda_recalls", "fda_shortages", "receiving_csv"],
+      "sourceNames": [
+        "pharmacy_pg.dispensing",
+        "pharmacy_pg.patients",
+        "pharmacy_pg.stores",
+        "pharmacy_pg.formulary",
+        "fda.recalls_by_ndc (FDA_RAW.recalls)",
+        "fda.shortages_by_ndc (FDA_RAW.shortages_p00..p16)",
+        "lots_files.receiving_lots"
+      ]
+    },
+    {
+      "name": "validation",
+      "file": "validation.sql",
+      "kind": "select",
+      "sourceIds": ["pharmacy_pg"],
+      "sourceNames": ["pharmacy_pg.dispensing"]
+    },
+    {
+      "name": "select_one",
+      "file": "select_one.sql",
+      "kind": "select",
+      "sourceIds": [],
+      "sourceNames": []
+    },
+    {
+      "name": "server_version",
+      "file": "server_version.sql",
+      "kind": "metadata",
+      "sourceIds": [],
+      "sourceNames": []
+    },
+    {
+      "name": "count_dispensing",
+      "file": "count_dispensing.sql",
+      "kind": "select",
+      "sourceIds": ["pharmacy_pg"],
+      "sourceNames": ["pharmacy_pg.dispensing"]
+    },
+    {
+      "name": "count_recalls",
+      "file": "count_recalls.sql",
+      "kind": "select",
+      "sourceIds": ["fda_recalls"],
+      "sourceNames": ["FDA_RAW.recalls"]
+    },
+    {
+      "name": "count_shortages",
+      "file": "count_shortages.sql",
+      "kind": "select",
+      "sourceIds": ["fda_shortages"],
+      "sourceNames": ["FDA_RAW.shortages_p00"]
+    },
+    {
+      "name": "count_receiving",
+      "file": "count_receiving.sql",
+      "kind": "select",
+      "sourceIds": ["receiving_csv"],
+      "sourceNames": ["lots_files.receiving_lots"]
+    }
+  ]
+}
