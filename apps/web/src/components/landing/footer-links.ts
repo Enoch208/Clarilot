@@ -18,10 +18,9 @@ export const footerColumns: readonly FooterColumn[] = [
   {
     title: "How it works",
     items: [
-      { label: "Four sources, one query", to: "#system" },
-      { label: "Lot evidence levels", to: "#difference" },
-      { label: "Pharmacist review", to: "#difference" },
-      { label: "Safety boundary", to: "#about" },
+      { label: "From recall to proof", to: "#system" },
+      { label: "Four sources, one query", to: "#sources" },
+      { label: "Published recalls", to: "#recalls" },
     ],
   },
   {
@@ -37,7 +36,7 @@ export const footerColumns: readonly FooterColumn[] = [
     title: "Project",
     items: [
       { label: "Source code", to: links.repo },
-      { label: "Zetaris Demo Challenge 2026", to: links.zetarisStart },
+      { label: "Safety boundary", to: "#about" },
     ],
   },
 ];

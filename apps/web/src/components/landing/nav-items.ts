@@ -35,9 +35,13 @@ export const navGroups: readonly NavGroup[] = [
   {
     label: "How it works",
     items: [
-      { label: "Four sources, one query", detail: "Federation through Zetaris", to: "#system" },
-      { label: "Lot evidence levels", detail: "Why unknown never means safe", to: "#difference" },
-      { label: "Pharmacist review", detail: "Drafts a person approves", to: "#difference" },
+      {
+        label: "From recall to proof",
+        detail: "Ingest, federate, classify, review, prove",
+        to: "#system",
+      },
+      { label: "Four sources, one query", detail: "What each source adds", to: "#sources" },
+      { label: "Published recalls", detail: "The real FDA records in the demo", to: "#recalls" },
     ],
   },
   {

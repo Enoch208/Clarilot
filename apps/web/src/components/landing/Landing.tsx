@@ -2,13 +2,11 @@ import { useRef } from "react";
 import { LazyMotion, domAnimation, useInView } from "motion/react";
 import { AboutSection } from "./AboutSection";
 import { CtaSection } from "./CtaSection";
-import { DifferenceSection } from "./DifferenceSection";
 import { EvidenceSection } from "./EvidenceSection";
 import { FeedSection } from "./FeedSection";
 import { Footer } from "./Footer";
 import { Hero } from "./Hero";
 import { Navbar } from "./Navbar";
-import { SourceQuotes } from "./SourceQuotes";
 import { SystemSection } from "./SystemSection";
 
 export function Landing() {
@@ -23,9 +21,7 @@ export function Landing() {
         <main>
           <Hero />
           <SystemSection />
-          <SourceQuotes />
           <EvidenceSection />
-          <DifferenceSection />
           <div ref={lightRef}>
             <FeedSection />
             <AboutSection />

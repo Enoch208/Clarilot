@@ -22,11 +22,7 @@ export type ImageName =
   | "about-pharmacist"
   | "cta-horizon"
   | "feed-recall"
-  | "feed-docs"
-  | "console-preview"
-  | "console-federation"
-  | "console-evidence"
-  | "console-review";
+  | "feed-docs";
 
 export function imageUrl(name: ImageName): string | undefined {
   return byName.get(name);

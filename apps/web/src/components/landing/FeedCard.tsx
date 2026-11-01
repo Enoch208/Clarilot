@@ -9,14 +9,11 @@ type FeedCardProps = {
   meta?: ReactNode;
   action: { label: string; to: string };
   image: ImageName;
-  wide?: boolean;
 };
 
-export function FeedCard({ tag, title, meta, action, image, wide = false }: FeedCardProps) {
+export function FeedCard({ tag, title, meta, action, image }: FeedCardProps) {
   return (
-    <article
-      className={`flex flex-col overflow-hidden rounded-card bg-mist ${wide ? "md:col-span-2" : ""}`}
-    >
+    <article className="flex flex-col overflow-hidden rounded-card bg-mist">
       <div className="relative isolate h-[15rem] lg:h-[25rem]">
         <ImageSlot
           name={image}
@@ -29,7 +26,7 @@ export function FeedCard({ tag, title, meta, action, image, wide = false }: Feed
         </span>
       </div>
       <div className="flex flex-1 flex-col gap-6 p-[1.5rem]">
-        <h3 className={`${wide ? "type-h5" : "type-h6"} line-clamp-3 text-ink`}>{title}</h3>
+        <h3 className="line-clamp-3 type-h6 text-ink">{title}</h3>
         {meta}
         <div className="mt-auto">
           <ButtonLink to={action.to} variant="outline-dark">

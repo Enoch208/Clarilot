@@ -1,7 +1,6 @@
 import { featuredRecallsResponseSchema, type FeaturedRecall } from "@clarilot/core";
 import { TagPill } from "@/components/ui/TagPill";
 import { formatSourceDate, formatStamp } from "@/lib/format";
-import { links } from "@/lib/links";
 import { useResource } from "@/lib/use-resource";
 import { FeedCard } from "./FeedCard";
 import { SectionFrame } from "./SectionFrame";
@@ -19,7 +18,9 @@ function RecallMeta({ recall }: { recall: FeaturedRecall }) {
   );
 }
 
-function recallCard(recall: FeaturedRecall) {
+const cardImages = ["feed-recall", "feed-docs"] as const;
+
+function recallCard(recall: FeaturedRecall, index: number) {
   return (
     <FeedCard
       key={recall.recallNumber}
@@ -27,7 +28,7 @@ function recallCard(recall: FeaturedRecall) {
       title={recall.productDescription}
       meta={<RecallMeta recall={recall} />}
       action={{ label: "View on openFDA", to: recall.permalink }}
-      image="feed-recall"
+      image={cardImages[index % cardImages.length] ?? "feed-recall"}
     />
   );
 }
@@ -41,40 +42,11 @@ function FeedNotice({ message }: { message: string }) {
   );
 }
 
-const methodCard = (
-  <FeedCard
-    key="method"
-    wide
-    tag="Method"
-    title="One Zetaris statement across four sources, logged in a query ledger"
-    action={{ label: "See the query", to: "/console?view=ledger" }}
-    image="feed-docs"
-  />
-);
-
-const documentCards = [
-  {
-    tag: "Source documentation",
-    title: "openFDA drug enforcement reports",
-    to: links.openfdaEnforcement,
-  },
-  { tag: "Source documentation", title: "openFDA drug shortages", to: links.openfdaShortages },
-  { tag: "Query engine", title: "Zetaris getting started", to: links.zetarisStart },
-].map((doc) => (
-  <FeedCard
-    key={doc.title}
-    tag={doc.tag}
-    title={doc.title}
-    action={{ label: "Read more", to: doc.to }}
-    image="feed-docs"
-  />
-));
-
 export function FeedSection() {
   const { resource } = useResource("/api/recalls/featured", featuredRecallsResponseSchema);
   const recalls =
     resource.state === "ready"
-      ? resource.data.recalls.map(recallCard)
+      ? resource.data.recalls.map((recall, index) => recallCard(recall, index))
       : [
           <FeedNotice
             key="notice"
@@ -85,22 +57,15 @@ export function FeedSection() {
             }
           />,
         ];
-  const [first, ...rest] = recalls;
   return (
-    <SectionFrame divider="light" className="pb-[5rem]">
+    <SectionFrame id="recalls" divider="light" className="pb-[5rem]">
       <div className="pt-[1.6rem]">
-        <TagPill label="In the feed" />
+        <TagPill label="Published recalls" />
         <h2 className="mt-[3rem] max-w-[34rem] type-h5 text-ink-2">
-          Published FDA recalls this pharmacy is checked against, and the documents behind the
-          method
+          The real FDA recalls the synthetic pharmacy is checked against
         </h2>
       </div>
-      <div className="mt-[4rem] grid gap-4 md:grid-cols-3">
-        {first}
-        {methodCard}
-        {rest}
-        {documentCards}
-      </div>
+      <div className="mt-[4rem] grid gap-4 md:grid-cols-3">{recalls}</div>
     </SectionFrame>
   );
 }
