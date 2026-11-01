@@ -122,3 +122,9 @@ export const apiErrorSchema = z.object({
   message: z.string(),
 });
 export type ApiError = z.infer<typeof apiErrorSchema>;
+
+export function isQueryFailure<T extends { status: QueryState }>(
+  response: T,
+): response is Extract<T, { status: QueryFailureState }> {
+  return (queryFailureStates as readonly string[]).includes(response.status);
+}

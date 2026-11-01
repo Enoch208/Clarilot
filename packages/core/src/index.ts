@@ -5,3 +5,4 @@ export * from "./lot";
 export * from "./dates";
 export * from "./shortage";
 export * from "./fda";
+export * from "./recalls-used";

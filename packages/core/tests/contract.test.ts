@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   alertsResponseSchema,
   draftSchema,
+  isQueryFailure,
   lotEvidenceConclusions,
   lotEvidenceLevels,
   shortageEvidenceConclusions,
@@ -59,5 +60,21 @@ describe("wire contract", () => {
     const shape = draftSchema.shape.sent;
     expect(shape.safeParse(true).success).toBe(false);
     expect(shape.safeParse(false).success).toBe(true);
+  });
+});
+
+describe("isQueryFailure", () => {
+  it("narrows an alerts response to its failure variant only for failure states", () => {
+    const failure = alertsResponseSchema.parse({
+      status: "TIMEOUT",
+      queryId: "3f1b6c2e-8a4d-4c1e-9b7a-2d5e6f708192",
+      queryName: "alerts_master",
+      checkedAt: "2026-11-01T03:00:00.000Z",
+      failedSource: null,
+      reason: "Zetaris did not answer within 60000 ms",
+    });
+    expect(isQueryFailure(failure)).toBe(true);
+    expect(isQueryFailure({ status: "EMPTY_VERIFIED" as const })).toBe(false);
+    expect(isQueryFailure({ status: "DEGRADED_CACHED" as const })).toBe(false);
   });
 });

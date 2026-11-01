@@ -1,0 +1,171 @@
+{
+  "selectedAt": "2026-11-01T02:10:16.812Z",
+  "enforcement": {
+    "endpoint": "https://api.fda.gov/drug/enforcement.json",
+    "search": "_exists_:openfda.product_ndc AND report_date:[20260701 TO 20261101]",
+    "sort": "report_date:desc",
+    "pageSize": 1000,
+    "metaLastUpdated": "2026-10-21",
+    "totalMatching": 191,
+    "fetched": 191,
+    "pages": 1,
+    "fetchedAt": "2026-11-01T02:10:07.518Z"
+  },
+  "constraints": [
+    "status is Ongoing and recall_number is present",
+    "openfda.product_ndc is present and every value parses as a hyphenated 4-4, 5-3 or 5-4 product NDC",
+    "code_info names lots in an anchored Lot/Batch context and parses without unreadable text",
+    "ordered by report_date descending, then recall_number ascending",
+    "rule recent_oral_multi_lot: route ORAL with at least two listed lots",
+    "rule oral_other_ndc_shape: route ORAL, a different NDC segment shape and no shared product key",
+    "rule class_i_with_shortage_listing: Class I with a product key listed Current in the FDA shortage feed via package_ndc"
+  ],
+  "rejections": {
+    "no_recall_number": 1,
+    "no_anchored_lot": 1,
+    "lot_text_too_complex": 12
+  },
+  "recalls": [
+    {
+      "selectionRule": "recent_oral_multi_lot",
+      "recallNumber": "D-0038-2027",
+      "permalink": "https://api.fda.gov/drug/enforcement.json?search=recall_number%3A%22D-0038-2027%22",
+      "lastUpdated": "2026-10-21",
+      "fetchedAt": "2026-11-01T02:10:16.095Z",
+      "classification": "Class II",
+      "status": "Ongoing",
+      "reportDate": "20261021",
+      "recallInitiationDate": "20260929",
+      "recallingFirm": "Teva Pharmaceuticals USA, Inc",
+      "productDescription": "Metoclopramide Tablets, USP, 5 mg, [100 or 500] Tablets per bottle, Rx Only, Manufactured for: Teva Pharmaceuticals, Parsippany, NJ 07054.  NDC 100 Tablets: 0093-2204-01; NDC 500 Tablets: 0093-2204-05",
+      "reasonForRecall": "Presence of Foreign Tablets/Capsules",
+      "codeInfo": "Lot, expiry: [100 Tablets] Lots 8634085, 8635085, 8636085, exp 07/2027; [500 Tablets] Lot 8633085, exp 07/2027",
+      "productNdc": ["0093-2203", "0093-2204"],
+      "productKeys": [
+        {
+          "raw": "0093-2203",
+          "productKey": "00093-2203"
+        },
+        {
+          "raw": "0093-2204",
+          "productKey": "00093-2204"
+        }
+      ],
+      "parsedLotTokens": ["8634085", "8635085", "8636085", "8633085"],
+      "genericName": ["METOCLOPRAMIDE"],
+      "route": ["ORAL"],
+      "sha256": "c736011242729f10806a43298ffe26981c904ccf98827900998f450afe4edf81"
+    },
+    {
+      "selectionRule": "oral_other_ndc_shape",
+      "recallNumber": "D-0042-2027",
+      "permalink": "https://api.fda.gov/drug/enforcement.json?search=recall_number%3A%22D-0042-2027%22",
+      "lastUpdated": "2026-10-21",
+      "fetchedAt": "2026-11-01T02:10:16.453Z",
+      "classification": "Class II",
+      "status": "Ongoing",
+      "reportDate": "20261021",
+      "recallInitiationDate": "20261006",
+      "recallingFirm": "American Health Packaging",
+      "productDescription": "Metoclopramide Tablets, USP, 5 mg, 100 Tablets (10 x 10), Rx Only, Distributed by: American Health Packaging, Columbus, Ohio 43217.  NDC Carton: 60687-620-01; NDC Unit Dose: 60687-620-11",
+      "reasonForRecall": "Presence of Foreign Tablets/Capsules",
+      "codeInfo": "Lot 1028135, 1029555; Exp. Date 07/31/2027",
+      "productNdc": ["60687-620", "60687-631"],
+      "productKeys": [
+        {
+          "raw": "60687-620",
+          "productKey": "60687-0620"
+        },
+        {
+          "raw": "60687-631",
+          "productKey": "60687-0631"
+        }
+      ],
+      "parsedLotTokens": ["1028135", "1029555"],
+      "genericName": ["METOCLOPRAMIDE"],
+      "route": ["ORAL"],
+      "sha256": "a2304b811ad38ca82a38c10e1e2c79b8d34ddd1f640fa4b81dd38d2f0592115a"
+    },
+    {
+      "selectionRule": "class_i_with_shortage_listing",
+      "recallNumber": "D-0788-2026",
+      "permalink": "https://api.fda.gov/drug/enforcement.json?search=recall_number%3A%22D-0788-2026%22",
+      "lastUpdated": "2026-10-21",
+      "fetchedAt": "2026-11-01T02:10:16.809Z",
+      "classification": "Class I",
+      "status": "Ongoing",
+      "reportDate": "20260826",
+      "recallInitiationDate": "20260804",
+      "recallingFirm": "Fresenius Kabi USA, LLC",
+      "productDescription": "Morphine Sulfate Injection, USP, 2 mg /mL, 1 mL single-dose Simplist prefilled syringes, For Intramuscular or Intravenous use, Rx only, Fresenius Kabi, Lake Zurich, IL. Unit of Use NDC Number 76045-004-01; Unit of Sale NDC Number 76045-004-11",
+      "reasonForRecall": "Labeling: Label Mixup: MicroVault labeled as Morphine 2 mg/1 mL, contains a Prefilled Syringe of Dilaudid 0.5 mg/0.5 mL.",
+      "codeInfo": "Lot #: 6402820, Exp. Date 12/2028",
+      "productNdc": ["76045-004", "76045-238", "76045-005", "76045-006", "76045-007", "76045-008"],
+      "productKeys": [
+        {
+          "raw": "76045-004",
+          "productKey": "76045-0004"
+        },
+        {
+          "raw": "76045-238",
+          "productKey": "76045-0238"
+        },
+        {
+          "raw": "76045-005",
+          "productKey": "76045-0005"
+        },
+        {
+          "raw": "76045-006",
+          "productKey": "76045-0006"
+        },
+        {
+          "raw": "76045-007",
+          "productKey": "76045-0007"
+        },
+        {
+          "raw": "76045-008",
+          "productKey": "76045-0008"
+        }
+      ],
+      "parsedLotTokens": ["6402820"],
+      "genericName": ["MORPHINE SULFATE"],
+      "route": ["INTRAMUSCULAR", "INTRAVENOUS"],
+      "sha256": "670247f6f13fc2b0400ed538abf2be69b69cbccbab65d4c34f31f4028201fd26"
+    }
+  ],
+  "shortages": {
+    "endpoint": "https://api.fda.gov/drug/shortages.json",
+    "metaLastUpdated": "2026-10-30",
+    "totalRecords": 1615,
+    "fetched": 1615,
+    "pageSize": 100,
+    "pages": 17,
+    "fetchedAt": "2026-11-01T02:10:08.538Z",
+    "matchedVia": "package_ndc projected to its product key",
+    "overlapFound": true,
+    "overlap": [
+      {
+        "recallNumber": "D-0788-2026",
+        "productKey": "76045-0004",
+        "packageNdc": "76045-004-11",
+        "status": "Current",
+        "availability": "Available",
+        "updateDate": "10/15/2026",
+        "genericName": "Morphine Sulfate Injection"
+      },
+      {
+        "recallNumber": "D-0788-2026",
+        "productKey": "76045-0005",
+        "packageNdc": "76045-005-11",
+        "status": "Current",
+        "availability": "Available",
+        "updateDate": "10/15/2026",
+        "genericName": "Morphine Sulfate Injection"
+      }
+    ],
+    "notes": [
+      "The full shortage feed was paginated at the documented 100 records per call.",
+      "A product absent from the overlap list is not proven to be free of shortage."
+    ]
+  }
+}
