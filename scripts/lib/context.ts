@@ -31,6 +31,11 @@ export type Context = {
 
 export async function createContext(argv: readonly string[]): Promise<Context> {
   const env = loadApiEnv(process.env);
+  if (env.DATABASE_URL === undefined) {
+    throw new Error(
+      "verify compares Zetaris with a direct Postgres read, so DATABASE_URL must be set in .env",
+    );
+  }
   return {
     env,
     db: createDb(env.DATABASE_URL),
