@@ -1,0 +1,43 @@
+const d0038CodeInfo =
+  "Lot, expiry: [100 Tablets] Lots 8634085, 8635085, 8636085, exp 07/2027; [500 Tablets] Lot 8633085, exp 07/2027";
+
+export function alertRow(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  return {
+    dispense_id: "1390",
+    rx_id: "480",
+    patient_id: "42",
+    patient_name: "Patient 0042",
+    store_id: "1",
+    store_name: "Demo Pharmacy 1 (synthetic)",
+    store_city: "Synthetic City North",
+    product_ndc_raw: "0093-2203",
+    product_ndc_key: "00093-2203",
+    ndc_parse_status: "OK_PRODUCT",
+    lot_no: "8634085",
+    qty: "30",
+    dispensed_at: "2026-10-22 15:30:00",
+    drug_label: "Metoclopramide (Teva Pharmaceuticals USA, Inc)",
+    recall_number: "D-0038-2027",
+    classification: "Class II",
+    recall_status: "Ongoing",
+    report_date: "20261021",
+    recall_initiation_date: "20260929",
+    recalling_firm: "Teva Pharmaceuticals USA, Inc",
+    product_description: "Metoclopramide Tablets, USP, 5 mg",
+    reason_for_recall: "Presence of Foreign Tablets/Capsules",
+    code_info: d0038CodeInfo,
+    recall_ndc_raw: "0093-2203",
+    recalls_last_updated: "2026-10-21",
+    receipt_id: "R-001",
+    receipt_lot_no: "8634085",
+    supplier: "Synthetic Wholesaler A",
+    received_at: "2026-09-28",
+    shortage_status: null,
+    shortage_availability: null,
+    shortage_update_date: null,
+    shortage_generic_name: null,
+    shortage_package_ndc: null,
+    shortages_last_updated: "2026-10-30",
+    ...overrides,
+  };
+}

@@ -80,6 +80,9 @@ CREATE TABLE app.outreach_actions (
   decided_at TIMESTAMPTZ,
   model_name TEXT,
   prompt_digest TEXT,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  UNIQUE (dispense_id, recall_number)
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE UNIQUE INDEX outreach_actions_active_case
+  ON app.outreach_actions (dispense_id, recall_number)
+  WHERE status <> 'INVALIDATED_DRAFT';
