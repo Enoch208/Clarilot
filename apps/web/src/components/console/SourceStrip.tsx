@@ -77,7 +77,7 @@ export function SourceStrip({ health, now }: SourceStripProps) {
               <p className="text-[0.8125rem] leading-[1.2] text-ink">
                 {chip.name} <span className="text-mute">· {spec.label}</span>
               </p>
-              <p className="max-w-[16rem] truncate font-mono text-[0.72rem] leading-[1.4] text-mute">
+              <p className="max-w-[12.5rem] truncate font-mono text-[0.72rem] leading-[1.4] text-mute">
                 {chip.detail}
               </p>
             </div>
