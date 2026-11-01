@@ -235,6 +235,22 @@ html {
   }
 }
 
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-orbit {
+  animation: orbit 12s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
 @utility hover-pause {
   &:hover {
     animation-play-state: paused;
