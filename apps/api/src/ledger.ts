@@ -1,6 +1,8 @@
 import type { CacheMode, QueryState } from "@clarilot/core";
 import type { AppDeps } from "./deps";
+import { sanitize } from "./http/errors";
 import type { NamedQuery } from "./sql/registry";
+import type { LedgerWrite } from "./stores/ledger";
 import type { ZetarisOutcome } from "./zetaris/client";
 
 export type SuccessDetail = {
@@ -11,13 +13,27 @@ export type SuccessDetail = {
   classifierVersion: string | null;
 };
 
-export async function recordOutcome(
+export type LedgerNote = string | null;
+
+export function withLedgerNote(text: string, note: LedgerNote): string {
+  return note === null ? text : `${text}. ${note}`;
+}
+
+function write(deps: Pick<AppDeps, "ledger">, entry: LedgerWrite): Promise<LedgerNote> {
+  return deps.ledger.record(entry).then(
+    () => null,
+    (error: unknown) =>
+      `This run was not recorded in the query ledger: ${sanitize(error instanceof Error ? error.message : "the ledger write failed")}`,
+  );
+}
+
+export function recordOutcome(
   deps: Pick<AppDeps, "ledger" | "zetaris">,
   query: NamedQuery,
   queryId: string,
   outcome: ZetarisOutcome,
   success: SuccessDetail | null,
-): Promise<void> {
+): Promise<LedgerNote> {
   const base = {
     queryId,
     queryName: query.name,
@@ -28,7 +44,7 @@ export async function recordOutcome(
     latencyMs: outcome.latencyMs,
   };
   if (!outcome.ok) {
-    await deps.ledger.record({
+    return write(deps, {
       ...base,
       fetchedAt: null,
       cacheMode: null,
@@ -38,9 +54,8 @@ export async function recordOutcome(
       errorSummary: outcome.reason,
       classifierVersion: null,
     });
-    return;
   }
-  await deps.ledger.record({
+  return write(deps, {
     ...base,
     fetchedAt: success?.fetchedAt ?? null,
     cacheMode: success?.cacheMode ?? null,

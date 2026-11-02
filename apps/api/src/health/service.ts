@@ -7,7 +7,7 @@ import type {
 } from "@clarilot/core";
 import type { AppDeps } from "../deps";
 import { sanitize } from "../http/errors";
-import { recordOutcome } from "../ledger";
+import { recordOutcome, withLedgerNote } from "../ledger";
 import { coverage } from "./scope";
 
 const message = (error: unknown) =>
@@ -26,16 +26,24 @@ async function zetarisHealth(deps: AppDeps, checkedAt: string): Promise<ZetarisH
   const query = deps.registry.get("select_one");
   const queryId = randomUUID();
   const outcome = await deps.zetaris.run(query, queryId);
-  await recordOutcome(deps, query, queryId, outcome, null);
+  const note = await recordOutcome(deps, query, queryId, outcome, null);
   if (!outcome.ok) {
-    return { ...base, status: "UNAVAILABLE", latencyMs: outcome.latencyMs, detail: outcome.reason };
+    return {
+      ...base,
+      status: "UNAVAILABLE",
+      latencyMs: outcome.latencyMs,
+      detail: withLedgerNote(outcome.reason, note),
+    };
   }
   const verified = deps.registry.verifiedInZetaris ? "" : "; named queries are not yet verified";
   return {
     ...base,
     status: "OK",
     latencyMs: outcome.latencyMs,
-    detail: `SELECT 1 answered through ${deps.zetaris.transport ?? "Zetaris"}${verified}`,
+    detail: withLedgerNote(
+      `SELECT 1 answered through ${deps.zetaris.transport ?? "Zetaris"}${verified}`,
+      note,
+    ),
   };
 }
 

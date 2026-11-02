@@ -11,7 +11,7 @@ import { z } from "zod";
 import { toIsoTimestamp } from "../alerts/rows";
 import type { AppDeps } from "../deps";
 import { sanitize } from "../http/errors";
-import { recordOutcome } from "../ledger";
+import { recordOutcome, withLedgerNote, type LedgerNote } from "../ledger";
 import type { ValidationRow } from "../stores/pharmacy";
 
 const ruleInfo: Record<QuarantineRule, { description: string; action: string }> = {
@@ -83,25 +83,28 @@ const zetarisRowSchema = z.object({
   dispensed_at: z.string(),
 });
 
-async function throughZetaris(deps: AppDeps): Promise<ValidationRow[] | string> {
+type Validation = { rows: ValidationRow[]; note: LedgerNote };
+
+async function throughZetaris(deps: AppDeps): Promise<Validation | string> {
   const query = deps.registry.get("validation");
   const queryId = randomUUID();
   const outcome = await deps.zetaris.run(query, queryId);
-  await recordOutcome(deps, query, queryId, outcome, null);
+  const note = await recordOutcome(deps, query, queryId, outcome, null);
   if (!outcome.ok) {
-    return outcome.reason;
+    return withLedgerNote(outcome.reason, note);
   }
   const rows = z.array(zetarisRowSchema).safeParse(outcome.rows);
   if (!rows.success) {
-    return "Zetaris returned validation rows in an unexpected shape";
+    return withLedgerNote("Zetaris returned validation rows in an unexpected shape", note);
   }
-  return rows.data.map((r) => ({
+  const mapped = rows.data.map((r) => ({
     dispenseId: r.dispense_id,
     productNdcRaw: r.product_ndc_raw,
     productNdcKey: r.product_ndc_key,
     lotNo: r.lot_no,
     dispensedAt: toIsoTimestamp(r.dispensed_at) ?? r.dispensed_at,
   }));
+  return { rows: mapped, note };
 }
 
 export async function quarantine(
@@ -111,25 +114,31 @@ export async function quarantine(
   const now = deps.now();
   const checkedAt = now.toISOString();
   const engine = deps.zetaris.configured ? "ZETARIS" : "APP_DIRECT_POSTGRES";
-  let rows: ValidationRow[] | string;
+  let result: Validation | string;
   try {
-    rows = engine === "ZETARIS" ? await throughZetaris(deps) : await deps.pharmacy.validationRows();
+    result =
+      engine === "ZETARIS"
+        ? await throughZetaris(deps)
+        : { rows: await deps.pharmacy.validationRows(), note: null };
   } catch (error) {
-    rows = `Pharmacy Postgres did not answer: ${sanitize(error instanceof Error ? error.message : "unknown error")}`;
+    result = `Pharmacy Postgres did not answer: ${sanitize(error instanceof Error ? error.message : "unknown error")}`;
   }
-  if (typeof rows === "string") {
-    return { status: "SOURCE_UNAVAILABLE", checkedAt, reason: rows };
+  if (typeof result === "string") {
+    return { status: "SOURCE_UNAVAILABLE", checkedAt, reason: result };
   }
+  const { rows, note } = result;
   const all = rows.flatMap((row) => violations(row, now));
   const shown = rule === undefined ? all : all.filter((r) => r.rule === rule);
   return {
     status: shown.length > 0 ? "RESULTS" : "EMPTY_VERIFIED",
     checkedAt,
     engine,
-    engineNote:
+    engineNote: withLedgerNote(
       engine === "ZETARIS"
         ? "Validation query executed through Zetaris on pharmacy_pg.dispensing; rule reasons computed by the API"
         : "Rules evaluated by the API over a direct read of the synthetic pharmacy Postgres; this is not Zetaris data quality",
+      note,
+    ),
     rules: quarantineRules.map((r) => ({
       rule: r,
       ...ruleInfo[r],

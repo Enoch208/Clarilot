@@ -8,7 +8,7 @@ import {
   type SourceStamp,
 } from "@clarilot/core";
 import type { AppDeps } from "../deps";
-import { recordOutcome } from "../ledger";
+import { recordOutcome, withLedgerNote } from "../ledger";
 import { mapAlertRows } from "./candidates";
 
 export type AlertsRun =
@@ -44,7 +44,7 @@ export async function runAlertsQuery(deps: AppDeps): Promise<AlertsRun> {
   const outcome = await deps.zetaris.run(query, queryId);
   const fetchedAt = deps.now().toISOString();
   if (!outcome.ok) {
-    await recordOutcome(deps, query, queryId, outcome, null);
+    const note = await recordOutcome(deps, query, queryId, outcome, null);
     return {
       ok: false,
       failure: {
@@ -53,7 +53,7 @@ export async function runAlertsQuery(deps: AppDeps): Promise<AlertsRun> {
         queryName: query.name,
         checkedAt: fetchedAt,
         failedSource: outcome.errorCode.startsWith("ZETARIS") ? "zetaris" : null,
-        reason: outcome.reason,
+        reason: withLedgerNote(outcome.reason, note),
       },
     };
   }
@@ -66,7 +66,7 @@ export async function runAlertsQuery(deps: AppDeps): Promise<AlertsRun> {
     pharmacy_pg: fetchedAt,
     receiving_csv: null,
   };
-  await recordOutcome(deps, query, queryId, outcome, {
+  const note = await recordOutcome(deps, query, queryId, outcome, {
     status,
     rowCount: outcome.rows.length,
     fetchedAt: stamps,
@@ -85,6 +85,7 @@ export async function runAlertsQuery(deps: AppDeps): Promise<AlertsRun> {
         ]
       : []),
     "Lot evidence is classified by the API's deterministic classifier from the code_info that Zetaris returned",
+    ...(note === null ? [] : [note]),
   ];
   return {
     ok: true,
