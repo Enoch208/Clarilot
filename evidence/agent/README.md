@@ -20,6 +20,27 @@ What the Cursor agent did on this project, with its own transcript and files. No
 
 **How the result was checked:** its 15 keys are saved in [../jdbc-case-ids.json](../jdbc-case-ids.json). Check V-07 compares them with the API's own run of the same query over the Zetaris REST interface: identical ([../verification.json](../verification.json)).
 
+## Session C: property tests for the NDC normaliser and lot classifier
+
+|            |                                                                                                      |
+| ---------- | ---------------------------------------------------------------------------------------------------- |
+| Tool       | Cursor 3.27.22, agent mode                                                                           |
+| Model      | `grok-4.7`, high reasoning effort, 256k context (from Cursor's local record of the chat)             |
+| When       | 2026-11-02, about 09:50 to 10:00 UTC (chat creation time and the last write to the files it changed) |
+| Who ran it | The developer, in the Cursor app                                                                     |
+| Transcript | [session-c/transcript.md](session-c/transcript.md)                                                   |
+
+The agent read the NDC and lot sources and the existing tests, pinned `fast-check` 4.10.2 as an exact dev dependency of `@clarilot/core`, and wrote [packages/core/tests/properties.test.ts](../../packages/core/tests/properties.test.ts) with four properties of 100 generated cases each:
+
+- normalising the canonical 5-4 product key a successful `normalizeProductNdc` returns gives the same key back;
+- every generated 4-4, 5-3 and 5-4 product NDC maps to a 10-digit 5-4 key with the same numbers, zero-padded, and the raw value unchanged;
+- a dispensed lot that is a strict substring or superstring of a lot listed in `code_info` is never `LOT_EXACT`;
+- `code_info` that is missing, empty or only whitespace never yields `ALL_LOTS_EXPLICIT`.
+
+The prompt told it to stop and show any counterexample before touching source code. None was found, so `ndc.ts`, `lot.ts` and `lot-tokens.ts` are unchanged. It ran the full gate (125 tests) and, as instructed, did not commit.
+
+**What changed in the repository:** `packages/core/package.json`, `pnpm-lock.yaml` and the new test file, committed unedited as `f2f4705` after the gate was rerun outside Cursor. The four properties also passed on five further runs with fresh random inputs.
+
 ## Other tools
 
 Most of this repository was written with Claude Code (Anthropic), including the prompts the developer pasted into Cursor above. Those sessions are not presented as Cursor or Grok work.
