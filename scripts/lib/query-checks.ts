@@ -54,12 +54,12 @@ export async function v06(ctx: Context): Promise<Check> {
 }
 
 export async function v07(ctx: Context): Promise<Check> {
-  const exportPath = "evidence/sql-editor-case-ids.json";
+  const exportPath = "evidence/jdbc-case-ids.json";
   const base = {
     id: "V-07",
-    title: "SQL Editor and backend same case IDs",
+    title: "Independent JDBC client and backend same case IDs",
     source: "alerts_master",
-    expected: `case keys exported from the SQL Editor to ${exportPath} equal the backend run`,
+    expected: `case keys from the same SQL run over Zetaris JDBC, saved to ${exportPath}, equal the backend REST run`,
     evidencePath: exportPath,
   };
   const exported = await readFile(fromRepo(exportPath), "utf8").then(
@@ -85,12 +85,12 @@ export async function v07(ctx: Context): Promise<Check> {
   }
   const ran = await runNamed(ctx, "alerts_master");
   const keys = caseKeys(ran.outcome);
-  const editor = [...new Set(exported.data)].sort();
-  const same = JSON.stringify(keys) === JSON.stringify(editor);
+  const jdbc = [...new Set(exported.data)].sort();
+  const same = JSON.stringify(keys) === JSON.stringify(jdbc);
   return check({
     ...base,
     status: ran.outcome.ok && same ? "PASS" : "FAIL",
-    observed: `backend ${String(keys.length)} keys, SQL Editor ${String(editor.length)} keys, identical: ${String(same)}`,
+    observed: `backend ${String(keys.length)} keys, JDBC ${String(jdbc.length)} keys, identical: ${String(same)}`,
     queryId: ran.queryId,
   });
 }
