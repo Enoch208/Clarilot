@@ -8,15 +8,20 @@ Live site: https://clarilot.vercel.app (landing page and console, no database an
 
 ## Status
 
-| Part                                                               | State                                               |
-| ------------------------------------------------------------------ | --------------------------------------------------- |
-| Real FDA recalls selected and archived with fetch times            | Done                                                |
-| Synthetic pharmacy Postgres, seeded from those recalls             | Done, runs locally                                  |
-| NDC normaliser, lot-evidence classifier, data-quality rules        | Done, unit tested                                   |
-| API with named, read-only queries and a query ledger               | Done, tested against a fake Zetaris transport       |
-| Console: queue, case, evidence drawer, review drafts, data quality | Done                                                |
-| Zetaris source registration and the four-source query              | **Written, not yet run against a Zetaris instance** |
-| Postgres insert test (new row appears in the same query)           | **Not yet run**                                     |
+| Part                                                               | State                                                                          |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Real FDA recalls selected and archived with fetch times            | Done                                                                           |
+| Synthetic pharmacy Postgres, seeded from those recalls             | Done, runs locally                                                             |
+| NDC normaliser, lot-evidence classifier, data-quality rules        | Done, unit tested                                                              |
+| API with named, read-only queries and a query ledger               | Done, tested with a fake transport and against live Zetaris                    |
+| Console: queue, case, evidence drawer, review drafts, data quality | Done                                                                           |
+| Four sources registered in Zetaris 2.4.3.1                         | Done; each source's count matches a direct read                                |
+| Four-source query                                                  | Runs in Zetaris: 15 cases, the same 15 over REST and JDBC                      |
+| Postgres insert test                                               | Passed: one committed row added exactly one case, no restart or sync           |
+| Read-only runtime principal                                        | Passed: the API's Zetaris user can read but its `CREATE` is refused            |
+| Source outage                                                      | Passed: a stopped pharmacy database shows `SOURCE_UNAVAILABLE`, not zero cases |
+
+All ten checks passed on 2026-11-02 against a local Zetaris; see [evidence/source-parity.md](evidence/source-parity.md). The four-source query took 6.0 to 8.4 s on the test laptop (median 7.6 s over 4 runs).
 
 Until a Zetaris instance is connected, `/api/alerts` answers `SOURCE_UNAVAILABLE` and the console says so. It never shows an empty list as a clean result.
 
@@ -110,7 +115,7 @@ pnpm typecheck && pnpm lint && pnpm format:check && pnpm build
 pnpm --filter @clarilot/scripts verify
 ```
 
-`pnpm test` runs 117 unit and API tests. `verify` compares each Zetaris source with a direct read of the same source (Postgres count, openFDA totals and timestamps, CSV line count), runs the four-source query and writes [evidence/verification.json](evidence/verification.json). Without Zetaris it records the direct side and marks every Zetaris check as failed. Results are in [evidence/test-results.md](evidence/test-results.md).
+`pnpm test` runs 121 unit and API tests. `verify` compares each Zetaris source with a direct read of the same source (Postgres count, openFDA totals and timestamps, CSV line count), runs the four-source query and writes [evidence/verification.json](evidence/verification.json). Without Zetaris it records the direct side and marks every Zetaris check as failed; `--outage` also stops the pharmacy Postgres to check the outage path. Results are in [evidence/test-results.md](evidence/test-results.md).
 
 ## API
 
@@ -128,15 +133,15 @@ pnpm --filter @clarilot/scripts verify
 
 ## Repository
 
-| Path                     | Contents                                                                     |
-| ------------------------ | ---------------------------------------------------------------------------- |
-| `apps/web`               | Vite + React site: landing page and investigation console                    |
-| `apps/api`               | Hono API, Zetaris client, ledger, drafts                                     |
-| `packages/core`          | Wire contract, NDC normaliser, lot classifier                                |
-| `sql/setup`, `sql/named` | Zetaris registration SQL and the named queries the API may run               |
-| `seed`                   | Recall selection, synthetic data generator, Postgres init SQL, receiving CSV |
-| `scripts`                | Source parity checks and the Vercel packaging step                           |
-| `evidence`               | Verification output and test results                                         |
+| Path                     | Contents                                                                               |
+| ------------------------ | -------------------------------------------------------------------------------------- |
+| `apps/web`               | Vite + React site: landing page and investigation console                              |
+| `apps/api`               | Hono API, Zetaris client, ledger, drafts                                               |
+| `packages/core`          | Wire contract, NDC normaliser, lot classifier                                          |
+| `sql/setup`, `sql/named` | Zetaris registration SQL and the named queries the API may run                         |
+| `seed`                   | Recall selection, synthetic data generator, Postgres init SQL, receiving CSV           |
+| `scripts`                | Source parity checks and the Vercel packaging step                                     |
+| `evidence`               | Connection contract, source parity, query ledger, verification output and test results |
 
 ## Deployed site
 
