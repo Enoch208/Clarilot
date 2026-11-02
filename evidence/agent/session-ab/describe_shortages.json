@@ -1,0 +1,42 @@
+{
+  "sql": "DESCRIBE FDA_RAW.shortages_p00",
+  "columns": [
+    {
+      "name": "col_name",
+      "type_code": "DBAPITypeObject('CHAR', 'NCHAR', 'NVARCHAR', 'VARCHAR', 'OTHER')",
+      "display_size": 2147483647,
+      "internal_size": 2147483647,
+      "precision": 2147483647,
+      "scale": 0
+    },
+    {
+      "name": "data_type",
+      "type_code": "DBAPITypeObject('CHAR', 'NCHAR', 'NVARCHAR', 'VARCHAR', 'OTHER')",
+      "display_size": 2147483647,
+      "internal_size": 2147483647,
+      "precision": 2147483647,
+      "scale": 0
+    },
+    {
+      "name": "comment",
+      "type_code": "DBAPITypeObject('CHAR', 'NCHAR', 'NVARCHAR', 'VARCHAR', 'OTHER')",
+      "display_size": 2147483647,
+      "internal_size": 2147483647,
+      "precision": 2147483647,
+      "scale": 0
+    }
+  ],
+  "row_count_fetched": 2,
+  "rows": [
+    [
+      "meta",
+      "struct<disclaimer:string,last_updated:string,license:string,results:struct<limit:bigint,skip:bigint,total:bigint>,terms:string>",
+      null
+    ],
+    [
+      "results",
+      "array<struct<availability:string,change_date:string,company_name:string,contact_info:string,discontinued_date:string,dosage_form:string,generic_name:string,initial_posting_date:string,openfda:struct<application_number:array<string>,brand_name:array<string>,generic_name:array<string>,manufacturer_name:array<string>,nui:array<string>,package_ndc:array<string>,pharm_class_cs:array<string>,pharm_class_epc:array<string>,pharm_class_moa:array<string>,pharm_class_pe:array<string>,product_ndc:array<string>,product_type:array<string>,route:array<string>,rxcui:array<string>,spl_id:array<string>,spl_set_id:array<string>,substance_name:array<string>,unii:array<string>>,package_ndc:string,presentation:string,related_info:string,related_info_link:string,resolved_note:string,shortage_reason:string,status:string,therapeutic_category:array<string>,update_date:string,update_type:string>>",
+      null
+    ]
+  ]
+}
