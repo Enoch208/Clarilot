@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "verify": "tsx --env-file-if-exists=../.env verify.ts; status=$?; prettier --write ../evidence/verification.json > /dev/null; exit $status",
+    "verify": "sh -c 'tsx --env-file-if-exists=../.env verify.ts \"$@\"; status=$?; prettier --write ../evidence/verification.json > /dev/null; exit $status' verify",
     "build:vercel": "tsx vercel-build.ts"
   },
   "dependencies": {
