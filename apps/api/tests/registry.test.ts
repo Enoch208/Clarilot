@@ -1,4 +1,6 @@
+import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
+import { z } from "zod";
 import { fromRepo } from "../src/files";
 import { assertReadOnly, createRegistry, loadRegistry, RegistryError } from "../src/sql/registry";
 
@@ -13,10 +15,16 @@ const query = (name: string, sql: string, kind: "select" | "metadata" = "select"
 });
 
 describe("U-11 named-query allowlist", () => {
-  it("loads every committed named query as read-only and marks it unverified", async () => {
+  it("loads every committed named query as read-only and only marks it verified on recorded passes", async () => {
     const registry = await loadRegistry(fromRepo("sql/named"));
     expect(registry.names()).toContain("alerts_master");
-    expect(registry.verifiedInZetaris).toBe(false);
+    const recorded = z
+      .object({ checks: z.array(z.object({ id: z.string(), status: z.string() })) })
+      .parse(JSON.parse(await readFile(fromRepo("evidence/verification.json"), "utf8")));
+    const passed = ["V-06", "V-07", "V-08"].every((id) =>
+      recorded.checks.some((c) => c.id === id && c.status === "PASS"),
+    );
+    expect(registry.verifiedInZetaris).toBe(passed);
     expect(registry.get("alerts_master").sourceIds).toEqual([
       "pharmacy_pg",
       "fda_recalls",

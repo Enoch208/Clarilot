@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-01T23:19:16.935Z",
+  "generatedAt": "2026-11-02T01:01:46.179Z",
   "zetarisConfigured": true,
   "zetarisTransport": "UI_PROXY",
   "namedSqlVerified": false,
-  "passed": 5,
-  "failed": 5,
+  "passed": 10,
+  "failed": 0,
   "checks": [
     {
-      "queryId": "84a8a78a-20a8-4c17-aac4-87d7915f552c",
+      "queryId": "18a78522-8c82-435a-ba83-d23685195842",
       "evidencePath": null,
       "id": "V-01",
       "title": "Zetaris version + SELECT 1",
@@ -15,10 +15,10 @@
       "expected": "SELECT 1 returns 1 and SHOW SERVER VERSION answers",
       "status": "PASS",
       "observed": "select_one 1 rows; server_version {\"version\":\"2.4.3.1\",\"build_target\":\"production\",\"build_time\":\"10/2/26, 4:30 AM\",\"build_tag\":\"2.4.3.1\",\"build_hash\":\"cb88df0b\"}",
-      "checkedAt": "2026-11-01T23:19:03.326Z"
+      "checkedAt": "2026-11-02T01:01:19.334Z"
     },
     {
-      "queryId": "92d17582-b303-4bff-a465-22d82faec972",
+      "queryId": "def9b6e4-d947-46c5-b60d-fd6b4bb7ecd0",
       "evidencePath": null,
       "id": "V-02",
       "title": "PostgreSQL source count = direct psql",
@@ -26,10 +26,10 @@
       "expected": "Zetaris count equals the direct Postgres count (1453)",
       "status": "PASS",
       "observed": "direct 1453, Zetaris 1453",
-      "checkedAt": "2026-11-01T23:19:03.843Z"
+      "checkedAt": "2026-11-02T01:01:19.764Z"
     },
     {
-      "queryId": "b8c75d3d-f863-44e4-b53c-e8f3ac23d763",
+      "queryId": "9ac84d6a-be78-426a-b0fa-7f8dcbae3aae",
       "evidencePath": null,
       "id": "V-03",
       "title": "FDA recall table shape + count + timestamp",
@@ -37,10 +37,10 @@
       "expected": "page rows = min(total, 1000) with total 191 and last_updated 2026-10-21 matching a direct openFDA call",
       "status": "PASS",
       "observed": "page rows 191, total 191, last_updated 2026-10-21",
-      "checkedAt": "2026-11-01T23:19:06.005Z"
+      "checkedAt": "2026-11-02T01:01:21.818Z"
     },
     {
-      "queryId": "fcad3fb9-9887-4c79-b157-bba0b7a211fe",
+      "queryId": "5998979a-d38f-42a0-873d-2cd8b3eb5461",
       "evidencePath": null,
       "id": "V-04",
       "title": "FDA shortage table shape + bounded count",
@@ -48,10 +48,10 @@
       "expected": "first page holds 100 rows of total 1615 with last_updated 2026-10-30",
       "status": "PASS",
       "observed": "page rows 100, total 1615",
-      "checkedAt": "2026-11-01T23:19:12.304Z"
+      "checkedAt": "2026-11-02T01:01:22.380Z"
     },
     {
-      "queryId": "4bc509ed-1987-46ea-bde6-5c39805bce72",
+      "queryId": "2af99dec-9629-4449-80b6-de3efd0cddd3",
       "evidencePath": null,
       "id": "V-05",
       "title": "Receiving CSV row count = file line count",
@@ -59,62 +59,62 @@
       "expected": "Zetaris row count equals 39 data lines (sha256 e96589b6e348)",
       "status": "PASS",
       "observed": "file 39, Zetaris 39",
-      "checkedAt": "2026-11-01T23:19:12.702Z"
+      "checkedAt": "2026-11-02T01:01:22.586Z"
     },
     {
-      "queryId": "cf07bb97-59f6-4a07-a4d5-2a26b1eedbad",
+      "queryId": "c20cf47a-24bb-4751-967e-764ca3dc0602",
       "evidencePath": "sql/named/alerts_master.sql",
       "id": "V-06",
       "title": "Four-source SQL parses and returns rows",
       "source": "sql/named/alerts_master.sql",
       "expected": "one statement referencing pharmacy_pg.dispensing, fda.recalls_by_ndc, fda.shortages_by_ndc, lots_files.receiving_lots returns at least one row",
-      "status": "FAIL",
-      "observed": "SOURCE_UNAVAILABLE: Zetaris returned HTTP 400: {\"msg\":\"[TABLE_OR_VIEW_NOT_FOUND] The table or view `fda`.`recalls_by_ndc` cannot be found. Verify the spelling and correctness of the schema and catalog.\\nIf you did not qualify the name with a schema, verify the current_schema() output, or qualify the name with the correct schema and catalog.\\nTo ",
-      "checkedAt": "2026-11-01T23:19:13.930Z"
+      "status": "PASS",
+      "observed": "15 rows, 15 unique case keys",
+      "checkedAt": "2026-11-02T01:01:27.180Z"
     },
     {
-      "queryId": null,
-      "evidencePath": "evidence/sql-editor-case-ids.json",
+      "queryId": "3ee6859c-26bc-4f1c-b45b-44d38989cbea",
+      "evidencePath": "evidence/jdbc-case-ids.json",
       "id": "V-07",
-      "title": "SQL Editor and backend same case IDs",
+      "title": "Independent JDBC client and backend same case IDs",
       "source": "alerts_master",
-      "expected": "case keys exported from the SQL Editor to evidence/sql-editor-case-ids.json equal the backend run",
-      "status": "FAIL",
-      "observed": "evidence/sql-editor-case-ids.json does not exist",
-      "checkedAt": "2026-11-01T23:19:13.931Z"
+      "expected": "case keys from the same SQL run over Zetaris JDBC, saved to evidence/jdbc-case-ids.json, equal the backend REST run",
+      "status": "PASS",
+      "observed": "backend 15 keys, JDBC 15 keys, identical: true",
+      "checkedAt": "2026-11-02T01:01:32.594Z"
     },
     {
-      "queryId": "0ddaeb31-07bf-497d-ab7a-e4c2506ae781",
+      "queryId": "ef9dad86-2eb8-457d-966d-0df4966cceff",
       "evidencePath": null,
       "id": "V-08",
       "title": "Source INSERT increases unique case IDs",
       "source": "pharmacy_pg.dispensing",
       "expected": "after one committed INSERT the same SQL gains exactly D-0038-2027:900001",
-      "status": "FAIL",
-      "observed": "before SOURCE_UNAVAILABLE: Zetaris returned HTTP 400: {\"msg\":\"[TABLE_OR_VIEW_NOT_FOUND] The table or view `fda`.`recalls_by_ndc` cannot be found. Verify the spelling and correctness of the schema and catalog.\\nIf you did not qualify the name with a schema, verify the current_schema() output, or qualify the name with the correct schema and catalog.\\nTo , after SOURCE_UNAVAILABLE: Zetaris returned HTTP 400: {\"msg\":\"[TABLE_OR_VIEW_NOT_FOUND] The table or view `fda`.`recalls_by_ndc` cannot be found. Verify the spelling and correctness of the schema and catalog.\\nIf you did not qualify the name with a schema, verify the current_schema() output, or qualify the name with the correct schema and catalog.\\nTo , new keys []; demo row removed afterwards",
-      "checkedAt": "2026-11-01T23:19:15.893Z"
+      "status": "PASS",
+      "observed": "before 15 rows, after 16 rows, new keys [D-0038-2027:900001]; demo row removed afterwards",
+      "checkedAt": "2026-11-02T01:01:43.973Z"
     },
     {
-      "queryId": "13e41a46-6a4e-4408-9019-c9a46f8e939d",
+      "queryId": "5571b4b5-8b1d-44f5-985b-e8240e1311e6",
       "evidencePath": null,
       "id": "V-09",
       "title": "No unauthorized writer permission",
       "source": "zetaris principal",
-      "expected": "a CREATE attempted as admin@zetaris.com is refused",
-      "status": "FAIL",
-      "observed": "CREATE succeeded: the runtime principal can write (drop CLARILOT_V09_PROBE as admin)",
-      "checkedAt": "2026-11-01T23:19:16.098Z"
+      "expected": "a CREATE attempted as clarilot-reader@clarilot.local is refused",
+      "status": "PASS",
+      "observed": "refused: SOURCE_UNAVAILABLE: Zetaris returned HTTP 400: {\"msg\":\"User is not permitted to run this command\"}",
+      "checkedAt": "2026-11-02T01:01:44.140Z"
     },
     {
-      "queryId": null,
+      "queryId": "3c59d25f-15e6-4826-86df-7b3c228bd973",
       "evidencePath": null,
       "id": "V-10",
       "title": "Source outage does not appear as 0 cases",
       "source": "http://127.0.0.1:8820/api/alerts",
       "expected": "with a source down, /api/alerts answers a failure state with no alert rows, never EMPTY_VERIFIED",
-      "status": "FAIL",
-      "observed": "every source was up and --outage was not given, so no outage was exercised",
-      "checkedAt": "2026-11-01T23:19:16.932Z"
+      "status": "PASS",
+      "observed": "down: clarilot-pg stopped for this check; /api/alerts answered SOURCE_UNAVAILABLE with no alert rows",
+      "checkedAt": "2026-11-02T01:01:46.179Z"
     }
   ]
 }

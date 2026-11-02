@@ -1,6 +1,13 @@
 import { healthResponseSchema, sourcesResponseSchema } from "@clarilot/core";
 import { describe, expect, it } from "vitest";
-import { call, feedProbe, memoryPharmacy, stubZetaris, testDeps } from "./support/fakes";
+import {
+  call,
+  feedProbe,
+  memoryPharmacy,
+  stubZetaris,
+  testDeps,
+  registryMarked,
+} from "./support/fakes";
 
 describe("GET /api/health", () => {
   it("reports Zetaris as not configured and never claims verification readiness", async () => {
@@ -48,5 +55,11 @@ describe("GET /api/health", () => {
       ["fda_shortages", "UNVERIFIED"],
       ["receiving_csv", "UNVERIFIED"],
     ]);
+  });
+
+  it("marks every source verified once the named SQL is verified in Zetaris", async () => {
+    const { app } = await testDeps({ registry: await registryMarked(true) });
+    const body = sourcesResponseSchema.parse((await call(app, "GET", "/api/sources")).body);
+    expect(body.sources.every((s) => s.registration === "VERIFIED")).toBe(true);
   });
 });

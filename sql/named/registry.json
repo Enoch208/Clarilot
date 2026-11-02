@@ -1,5 +1,5 @@
 {
-  "verifiedInZetaris": false,
+  "verifiedInZetaris": true,
   "queries": [
     {
       "name": "alerts_master",

@@ -77,7 +77,7 @@ export async function runAlertsQuery(deps: AppDeps): Promise<AlertsRun> {
     ...(deps.registry.verifiedInZetaris
       ? []
       : [
-          "The named SQL has not yet been verified against the SQL Editor; treat results as unverified",
+          "The named SQL has not yet been verified against a live Zetaris instance; treat results as unverified",
         ]),
     ...(mapped.rejectedRows > 0
       ? [

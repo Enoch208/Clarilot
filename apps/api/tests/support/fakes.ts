@@ -3,7 +3,7 @@ import { createApp } from "../../src/app";
 import type { AppDeps } from "../../src/deps";
 import { fromRepo, loadRecallsUsed, type DemoCaseFile } from "../../src/files";
 import type { Feed, FeedProbe } from "../../src/health/openfda";
-import { loadRegistry, type SqlRegistry } from "../../src/sql/registry";
+import { createRegistry, loadRegistry, type SqlRegistry } from "../../src/sql/registry";
 import type { DraftRecord, DraftStore } from "../../src/stores/drafts";
 import type { LedgerStore, LedgerWrite } from "../../src/stores/ledger";
 import type { PharmacyStore } from "../../src/stores/pharmacy";
@@ -123,16 +123,30 @@ export const demoCase: DemoCaseFile = {
 
 let shared: { registry: SqlRegistry; recallsUsed: RecallsUsed } | null = null;
 
-export async function testDeps(overrides: Partial<AppDeps> = {}) {
+async function loadShared() {
   shared ??= {
     registry: await loadRegistry(fromRepo("sql/named")),
     recallsUsed: await loadRecallsUsed("seed/recalls_used.json"),
   };
+  return shared;
+}
+
+export async function registryMarked(verified: boolean): Promise<SqlRegistry> {
+  const { registry } = await loadShared();
+  return createRegistry(
+    verified,
+    registry.names().map((name) => registry.get(name)),
+  );
+}
+
+export async function testDeps(overrides: Partial<AppDeps> = {}) {
+  const loaded = await loadShared();
+  const unverified = await registryMarked(false);
   const ledger = memoryLedger();
   const drafts = memoryDrafts();
   const deps: AppDeps = {
     zetaris: unconfiguredZetaris(),
-    registry: shared.registry,
+    registry: unverified,
     ledger,
     pharmacy: memoryPharmacy(),
     drafts,
@@ -143,7 +157,7 @@ export async function testDeps(overrides: Partial<AppDeps> = {}) {
         sha256: "a".repeat(64),
         fileModifiedAt: fixedNow.toISOString(),
       }),
-    recallsUsed: shared.recallsUsed,
+    recallsUsed: loaded.recallsUsed,
     demoCases: [demoCase],
     demo: { enabled: true, token: "test-demo-token-0123456789" },
     now: () => fixedNow,
